@@ -78,7 +78,7 @@ export async function POST(request: Request) {
       }
 
       await resend.emails.send({
-        from: 'Tranquil Luxe Massage <bookings@tranquilluxe.com>',
+        from: 'Tranquil Luxe Massage <bookings@tranquilluxemassage.fit>',
         to: order.clientEmail,
         subject,
         html: htmlContent
