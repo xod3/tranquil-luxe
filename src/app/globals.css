@@ -79,16 +79,20 @@ a:hover {
 }
 
 .logo {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--gold-dark);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  letter-spacing: 1px;
 }
 
-.logo:hover {
-  color: var(--gold-primary);
+.header-logo {
+  height: 65px;
+  width: auto;
+  object-fit: contain;
+  transition: var(--transition);
+}
+
+.header-logo:hover {
+  transform: scale(1.02);
 }
 
 .nav-links {

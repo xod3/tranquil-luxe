@@ -18,7 +18,9 @@ export default function RootLayout({
         <CartProvider>
           <nav className="navbar">
             <div className="container nav-content">
-              <a href="/" className="logo">Tranquil Luxe</a>
+              <a href="/" className="logo">
+                <img src="/logo.png" alt="Tranquil Luxe Massage" className="header-logo" />
+              </a>
               <div className="nav-links">
                 <a href="/">Home</a>
                 <a href="/prices">Prices</a>
