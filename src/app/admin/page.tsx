@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import styles from "./admin.module.css";
-import ConfirmButton from "./ConfirmButton";
+import AdminActions from "./AdminActions";
 
 export const dynamic = 'force-dynamic';
 
@@ -32,6 +32,9 @@ export default async function AdminPage() {
 
             <div className={styles.orderDetails}>
               <p><strong>Client:</strong> {order.clientName} ({order.clientEmail} | {order.clientPhone})</p>
+              {(order.clientAddress || order.clientCity || order.clientState) && (
+                <p><strong>Location:</strong> {order.clientAddress}, {order.clientCity}, {order.clientState}</p>
+              )}
               <p><strong>Total:</strong> ${order.totalAmount}</p>
               <p><strong>Method:</strong> {order.paymentMethod}</p>
             </div>
@@ -55,13 +58,18 @@ export default async function AdminPage() {
 
             {order.status === "pending" && (
               <div className={styles.actionSection}>
-                <ConfirmButton orderId={order.id} />
+                <AdminActions orderId={order.id} />
               </div>
             )}
 
-            {order.status === "confirmed" && order.paymentConfirmedCode && (
-              <div className={styles.confirmedSection}>
-                <strong>Confirmation Code:</strong> {order.paymentConfirmedCode}
+            {(order.status === "confirmed" || order.status === "declined") && (
+              <div className={styles.confirmedSection} style={{ borderTop: '1px solid #eee', paddingTop: '1rem', marginTop: '1rem' }}>
+                {order.status === "confirmed" && order.paymentConfirmedCode && (
+                  <p><strong>Confirmation Code:</strong> {order.paymentConfirmedCode}</p>
+                )}
+                {order.adminNote && (
+                  <p><strong>Admin Note:</strong> {order.adminNote}</p>
+                )}
               </div>
             )}
           </div>

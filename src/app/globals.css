@@ -97,21 +97,64 @@ a:hover {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
-.nav-links a {
-  font-family: var(--font-sans);
-  font-size: 1rem;
+.nav-button {
+  color: var(--gold-dark);
+  text-decoration: none;
   font-weight: 500;
-  color: var(--text-main);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  transition: var(--transition);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 1px solid transparent;
 }
 
-.nav-links a:hover {
+.nav-button:hover {
   color: var(--gold-primary);
+  background-color: rgba(197, 160, 89, 0.05); /* Slight gold tint */
+}
+
+.cart-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--gold-light);
+  border: 1px solid var(--gold-primary);
+  position: relative; /* For the badge positioning */
+}
+
+.cart-button:hover {
+  background-color: var(--gold-primary);
+  color: #fff;
+}
+
+.cart-button:hover .cart-icon {
+  stroke: #fff;
+}
+
+.cart-icon {
+  transition: var(--transition);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #d32f2f; /* A strong red to catch the eye, or dark gold depending on pref, red usually denotes count well */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* Base UI Components */

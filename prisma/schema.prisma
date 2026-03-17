@@ -15,10 +15,14 @@ model Order {
   clientName           String
   clientEmail          String
   clientPhone          String
+  clientAddress        String?
+  clientState          String?
+  clientCity           String?
   totalAmount          Float
-  paymentMethod        String         // e.g., 'giftcard', 'cashapp', 'crypto', 'zelle'
-  status               String         @default("pending") // 'pending', 'confirmed'
+  paymentMethod        String
+  status               String         @default("pending") // pending, confirmed, declined
   paymentConfirmedCode String?
+  adminNote            String?        // Note added by admin when confirming or declining
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   paymentProofs        PaymentProof[]

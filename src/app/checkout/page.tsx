@@ -12,8 +12,9 @@ export default function Checkout() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    name: "", email: "", phone: "",
+    name: "", email: "", phone: "", address: "", city: "", state: ""
   });
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const [fileData, setFileData] = useState({
     cardImage: null as File | null,
@@ -31,6 +32,7 @@ export default function Checkout() {
     e.preventDefault();
     if (!method) return alert("Please select a payment method.");
     if (items.length === 0) return alert("Your cart is empty.");
+    if (!isConfirmed) return alert("Please confirm that the provided information is correct.");
 
     setIsSubmitting(true);
     
@@ -40,6 +42,9 @@ export default function Checkout() {
       data.append("name", formData.name);
       data.append("email", formData.email);
       data.append("phone", formData.phone);
+      data.append("address", formData.address);
+      data.append("city", formData.city);
+      data.append("state", formData.state);
       data.append("method", method);
       data.append("total", total.toString());
       
@@ -119,6 +124,24 @@ export default function Checkout() {
               <input type="tel" required className="form-control" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
             </div>
 
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Client Location</h2>
+            
+            <div className="form-group">
+              <label className="form-label">Address</label>
+              <input type="text" required className="form-control" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">City</label>
+                <input type="text" required className="form-control" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} />
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">State</label>
+                <input type="text" required className="form-control" value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} />
+              </div>
+            </div>
+
             <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '3rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Payment Options</h2>
             
             <div className={styles.paymentMethods}>
@@ -160,7 +183,21 @@ export default function Checkout() {
               </div>
             )}
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '2rem' }} disabled={isSubmitting || items.length === 0}>
+            <div style={{ marginTop: '2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input 
+                type="checkbox" 
+                id="confirmInfo" 
+                required 
+                checked={isConfirmed}
+                onChange={e => setIsConfirmed(e.target.checked)}
+                style={{ width: '18px', height: '18px', accentColor: 'var(--gold-primary)', cursor: 'pointer' }}
+              />
+              <label htmlFor="confirmInfo" style={{ cursor: 'pointer', userSelect: 'none', color: 'var(--text-main)', fontSize: '0.9rem' }}>
+                I confirm the provided information is correct
+              </label>
+            </div>
+
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isSubmitting || items.length === 0 || !isConfirmed}>
               {isSubmitting ? "Processing..." : `Complete Booking ($${total})`}
             </button>
           </form>
