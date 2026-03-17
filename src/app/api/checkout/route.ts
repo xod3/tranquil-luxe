@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import fs from "fs";
+import { put } from "@vercel/blob";
 
 export const dynamic = 'force-dynamic';
 
@@ -30,12 +28,7 @@ export async function POST(request: Request) {
       }
     });
 
-    // Handle File Uploads
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
+    // Handle File Uploads via Vercel Blob
     let cardImageUrl = null;
     let receiptImageUrl = null;
 
@@ -44,28 +37,19 @@ export async function POST(request: Request) {
       const receiptFile = data.get("receiptImage") as File;
 
       if (cardFile) {
-        const bytes = await cardFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const fileName = `${order.id}-card-${cardFile.name}`;
-        await writeFile(path.join(uploadDir, fileName), buffer);
-        cardImageUrl = `/uploads/${fileName}`;
+        const { url } = await put(`${order.id}-card-${cardFile.name}`, cardFile, { access: 'public' });
+        cardImageUrl = url;
       }
 
       if (receiptFile) {
-        const bytes = await receiptFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const fileName = `${order.id}-receipt-${receiptFile.name}`;
-        await writeFile(path.join(uploadDir, fileName), buffer);
-        receiptImageUrl = `/uploads/${fileName}`;
+        const { url } = await put(`${order.id}-receipt-${receiptFile.name}`, receiptFile, { access: 'public' });
+        receiptImageUrl = url;
       }
     } else {
       const proofFile = data.get("proofOfPayment") as File;
       if (proofFile) {
-        const bytes = await proofFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const fileName = `${order.id}-proof-${proofFile.name}`;
-        await writeFile(path.join(uploadDir, fileName), buffer);
-        receiptImageUrl = `/uploads/${fileName}`; // Using receiptImageUrl for proof as well conceptually
+        const { url } = await put(`${order.id}-proof-${proofFile.name}`, proofFile, { access: 'public' });
+        receiptImageUrl = url; // Using receiptImageUrl for proof as well conceptually
       }
     }
 
