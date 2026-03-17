@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import styles from "./admin.module.css";
 import ConfirmButton from "./ConfirmButton";
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient();
 
 export default async function AdminPage() {

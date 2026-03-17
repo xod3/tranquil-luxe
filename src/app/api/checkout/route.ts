@@ -4,6 +4,8 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import fs from "fs";
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
