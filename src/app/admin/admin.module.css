@@ -1,0 +1,87 @@
+.orderList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.orderCard {
+  background: var(--white-pure);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.statusBadge[data-status="pending"] {
+  background-color: #fffbe6;
+  color: #faad14;
+  border: 1px solid #ffe58f;
+}
+
+.statusBadge[data-status="confirmed"] {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.orderDetails p {
+  margin-bottom: 0.5rem;
+}
+
+.proofsSection {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fafafa;
+  border-radius: var(--radius-sm);
+}
+
+.imagesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.imgLink {
+  color: var(--gold-primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.imgLink:hover {
+  text-decoration: none;
+  color: var(--gold-dark);
+}
+
+.actionSection {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirmedSection {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(212, 175, 55, 0.05);
+  border-left: 4px solid var(--gold-primary);
+  font-size: 1.1rem;
+  color: var(--gold-dark);
+}

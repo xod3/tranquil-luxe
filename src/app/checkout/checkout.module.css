@@ -1,0 +1,110 @@
+.checkoutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .checkoutGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cartSection {
+  background: var(--white-pure);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.cartList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.price {
+  font-family: var(--font-serif);
+  font-weight: bold;
+  color: var(--gold-dark);
+}
+
+.removeBtn {
+  background: transparent;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: var(--transition);
+}
+
+.removeBtn:hover {
+  transform: scale(1.1);
+}
+
+.cartTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-family: var(--font-serif);
+  font-weight: bold;
+  color: var(--text-main);
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--gold-light);
+}
+
+.formSection {
+  /* Inherits purely from .card globals for main form container usually */
+}
+
+.paymentMethods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.methodCard {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.methodCard:hover {
+  background-color: rgba(212, 175, 55, 0.05);
+}
+
+.selectedMethod {
+  background-color: var(--gold-primary);
+  color: var(--white-pure);
+  border-color: var(--gold-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.selectedMethod:hover {
+  background-color: var(--gold-dark);
+}
+
+.paymentInstructions {
+  background-color: rgba(212, 175, 55, 0.05);
+  padding: 1.5rem;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--gold-primary);
+  margin-top: 1rem;
+}
