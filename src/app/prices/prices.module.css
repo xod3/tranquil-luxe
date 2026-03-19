@@ -167,7 +167,9 @@
 .bookingList li {
   margin-bottom: 1rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  line-height: 1.6;
 }
 
 .checkIcon {
