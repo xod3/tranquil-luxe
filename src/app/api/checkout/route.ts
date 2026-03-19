@@ -13,9 +13,12 @@ export async function POST(request: Request) {
     const name = data.get("name") as string;
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
-    const address = data.get("address") as string;
-    const city = data.get("city") as string;
+    const country = data.get("country") as string;
     const state = data.get("state") as string;
+    const city = data.get("city") as string;
+    const zipCode = data.get("zipCode") as string;
+    const streetAddress = data.get("streetAddress") as string;
+    const currency = data.get("currency") as string || "USD";
     const method = data.get("method") as string;
     const totalAmount = parseFloat(data.get("total") as string);
 
@@ -25,9 +28,12 @@ export async function POST(request: Request) {
         clientName: name,
         clientEmail: email,
         clientPhone: phone,
-        clientAddress: address,
-        clientCity: city,
+        clientCountry: country,
         clientState: state,
+        clientCity: city,
+        clientZipCode: zipCode,
+        clientStreetAddress: streetAddress,
+        currency,
         totalAmount,
         paymentMethod: method,
         status: "pending"

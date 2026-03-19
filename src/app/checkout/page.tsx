@@ -12,9 +12,16 @@ export default function Checkout() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    name: "", email: "", phone: "", address: "", city: "", state: ""
+    name: "", email: "", phone: "",
+    country: "", state: "", city: "", zipCode: "", streetAddress: ""
   });
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [currency, setCurrency] = useState("USD");
+
+  const currencySymbols: Record<string, string> = { USD: "$", EUR: "€", GBP: "£" };
+  const exchangeRates: Record<string, number> = { USD: 1, EUR: 0.92, GBP: 0.79 };
+  const displayTotal = (total * exchangeRates[currency]).toFixed(2);
+  const sym = currencySymbols[currency];
 
   const [fileData, setFileData] = useState({
     cardImage: null as File | null,
@@ -42,9 +49,12 @@ export default function Checkout() {
       data.append("name", formData.name);
       data.append("email", formData.email);
       data.append("phone", formData.phone);
-      data.append("address", formData.address);
-      data.append("city", formData.city);
+      data.append("country", formData.country);
       data.append("state", formData.state);
+      data.append("city", formData.city);
+      data.append("zipCode", formData.zipCode);
+      data.append("streetAddress", formData.streetAddress);
+      data.append("currency", currency);
       data.append("method", method);
       data.append("total", total.toString());
       
@@ -99,7 +109,7 @@ export default function Checkout() {
               </ul>
               <div className={styles.cartTotal}>
                 <span>Total</span>
-                <span>${total}</span>
+                <span>{sym}{displayTotal} {currency}</span>
               </div>
             </>
           )}
@@ -124,11 +134,47 @@ export default function Checkout() {
               <input type="tel" required className="form-control" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
             </div>
 
-            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Client Location</h2>
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Currency & Location</h2>
             
             <div className="form-group">
-              <label className="form-label">Address</label>
-              <input type="text" required className="form-control" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
+              <label className="form-label">Preferred Currency</label>
+              <select className="form-control" value={currency} onChange={e => setCurrency(e.target.value)} style={{ cursor: 'pointer' }}>
+                <option value="USD">🇺🇸 USD — US Dollar ($)</option>
+                <option value="EUR">🇪🇺 EUR — Euro (€)</option>
+                <option value="GBP">🇬🇧 GBP — British Pound (£)</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Country</label>
+              <select required className="form-control" value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} style={{ cursor: 'pointer' }}>
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="AU">Australia</option>
+                <option value="NG">Nigeria</option>
+                <option value="GH">Ghana</option>
+                <option value="ZA">South Africa</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="JP">Japan</option>
+                <option value="BR">Brazil</option>
+                <option value="MX">Mexico</option>
+                <option value="IN">India</option>
+                <option value="IT">Italy</option>
+                <option value="ES">Spain</option>
+                <option value="NL">Netherlands</option>
+                <option value="SE">Sweden</option>
+                <option value="CH">Switzerland</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Street Address</label>
+              <input type="text" required className="form-control" placeholder="123 Main Street, Apt 4B" value={formData.streetAddress} onChange={e => setFormData({...formData, streetAddress: e.target.value})} />
             </div>
 
             <div style={{ display: 'flex', gap: '1rem' }}>
@@ -137,9 +183,14 @@ export default function Checkout() {
                 <input type="text" required className="form-control" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} />
               </div>
               <div className="form-group" style={{ flex: 1 }}>
-                <label className="form-label">State</label>
+                <label className="form-label">State / Province</label>
                 <input type="text" required className="form-control" value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} />
               </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Zip / Postal Code</label>
+              <input type="text" required className="form-control" value={formData.zipCode} onChange={e => setFormData({...formData, zipCode: e.target.value})} />
             </div>
 
             <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '3rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Payment Options</h2>
@@ -198,7 +249,7 @@ export default function Checkout() {
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isSubmitting || items.length === 0 || !isConfirmed}>
-              {isSubmitting ? "Processing..." : `Complete Booking ($${total})`}
+              {isSubmitting ? "Processing..." : `Complete Booking (${sym}${displayTotal} ${currency})`}
             </button>
           </form>
         </div>

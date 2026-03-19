@@ -15,9 +15,13 @@ model Order {
   clientName           String
   clientEmail          String
   clientPhone          String
-  clientAddress        String?
+  clientCountry        String?
   clientState          String?
   clientCity           String?
+  clientZipCode        String?
+  clientStreetAddress  String?
+  clientAddress        String?
+  currency             String         @default("USD")
   totalAmount          Float
   paymentMethod        String
   status               String         @default("pending") // pending, confirmed, declined

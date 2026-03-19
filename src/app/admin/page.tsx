@@ -32,10 +32,10 @@ export default async function AdminPage() {
 
             <div className={styles.orderDetails}>
               <p><strong>Client:</strong> {order.clientName} ({order.clientEmail} | {order.clientPhone})</p>
-              {(order.clientAddress || order.clientCity || order.clientState) && (
-                <p><strong>Location:</strong> {order.clientAddress}, {order.clientCity}, {order.clientState}</p>
+              {(order.clientStreetAddress || order.clientCity || order.clientState || order.clientCountry) && (
+                <p><strong>Location:</strong> {[order.clientStreetAddress, order.clientCity, order.clientState, order.clientZipCode, order.clientCountry].filter(Boolean).join(', ')}</p>
               )}
-              <p><strong>Total:</strong> ${order.totalAmount}</p>
+              <p><strong>Total:</strong> ${order.totalAmount} {order.currency && order.currency !== 'USD' ? `(${order.currency})` : ''}</p>
               <p><strong>Method:</strong> {order.paymentMethod}</p>
             </div>
 

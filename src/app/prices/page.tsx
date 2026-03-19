@@ -23,6 +23,7 @@ export default function Prices() {
     { id: "s1", name: "Deep Tissue Therapy", price: 120, duration: "60 mins", desc: "Targets muscle knots and chronic tension.", category: "specialized" },
     { id: "s2", name: "Hot Stone Relaxation", price: 170, duration: "75 mins", desc: "Warm stones melt tension and promote deep relaxation.", category: "specialized" },
     { id: "s3", name: "Stress Relief Neck & Back", price: 100, duration: "45 mins", desc: "Focused therapy for upper body tension.", category: "specialized" },
+    { id: "s4", name: "Sensual Massage", price: 220, duration: "30 mins", desc: "An intimate full-body experience designed to awaken your senses with expert touch — the perfect way to unwind and let go completely.", category: "specialized" },
     
     { id: "a1", name: "Aromatherapy oils", price: 25, duration: "", desc: "", category: "addon" },
     { id: "a2", name: "Hot towel treatment", price: 20, duration: "", desc: "", category: "addon" },
@@ -107,7 +108,7 @@ export default function Prices() {
           <ul className={styles.bookingList}>
             <li><span className={styles.checkIcon}>✓</span> Appointments only</li>
             <li><span className={styles.checkIcon}>✓</span> Private and professional environment</li>
-            <li><span className={styles.checkIcon}>✓</span> Message or call (562) 443-6439 to reserve your session</li>
+            <li><span className={styles.checkIcon}>✓</span> Email us at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> to reserve your session</li>
           </ul>
           
           <Link href="/checkout" className="btn btn-primary mt-8">
