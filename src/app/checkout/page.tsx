@@ -170,9 +170,9 @@ export default function Checkout() {
                 ) : (
                   <>
                     <p style={{ marginBottom: '1rem' }}>
-                      {method === 'Cashapp' && "Contact support at bookings@tranquilluxemassage.fit for payment tags, or use other available payment options."}
-                      {method === 'Crypto (BTC)' && "Send BTC to wallet: bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw"}
-                      {method === 'Zelle' && "Contact support at bookings@tranquilluxemassage.fit for payment tags, or use other available payment options."}
+                      {method === 'Cashapp' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
+                      {method === 'Crypto (BTC)' && <>Send BTC to wallet: <strong style={{ color: '#2e7d32' }}>bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw</strong></>}
+                      {method === 'Zelle' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
                     </p>
                     <div className="form-group">
                       <label className="form-label">Upload Proof of Payment (Screenshot)</label>
