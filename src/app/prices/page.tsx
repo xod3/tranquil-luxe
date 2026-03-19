@@ -104,11 +104,11 @@ export default function Prices() {
 
       <section className={styles.bookingSection}>
         <div className="container text-center">
-          <h2 className="section-title" style={{ color: 'var(--white-pure)' }}>Booking Information</h2>
+          <h2 className="section-title" style={{ color: '#F3E5AB' }}>Booking Information</h2>
           <ul className={styles.bookingList}>
             <li><span className={styles.checkIcon}>✓</span> By private appointment only</li>
             <li><span className={styles.checkIcon}>✓</span> Discreet, intimate, professional setting</li>
-            <li><span className={styles.checkIcon}>✓</span> Email us at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> to arrange your session</li>
+            <li><span className={styles.checkIcon}>✓</span> Email us at{' '}<a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> to arrange your session</li>
           </ul>
           
           <Link href="/checkout" className="btn btn-primary mt-8">

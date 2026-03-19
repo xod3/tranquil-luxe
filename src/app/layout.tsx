@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "../components/CartProvider";
-
 import Navbar from "../components/Navbar";
+import PetalsFalling from "../components/PetalsFalling";
 
 export const metadata: Metadata = {
   title: "Tranquil Luxe Massage | Premium Experience",
@@ -19,6 +19,7 @@ export default function RootLayout({
       <body>
         <CartProvider>
           <Navbar />
+          <PetalsFalling />
           <main>{children}</main>
           <footer className="footer">
             <div className="container text-center">
