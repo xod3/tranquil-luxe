@@ -222,7 +222,7 @@ export default function Checkout() {
                   <>
                     <p style={{ marginBottom: '1rem' }}>
                       {method === 'Cashapp' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
-                      {method === 'Crypto (BTC)' && <>Send BTC to wallet: <strong style={{ color: '#2e7d32' }}>bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw</strong><br/><img src="/btc-qr.png" alt="BTC QR Code" style={{ marginTop: '1rem', maxWidth: '220px', borderRadius: '12px' }} /></>}
+                      {method === 'Crypto (BTC)' && <>Send BTC to wallet: <strong style={{ color: '#2e7d32' }}>bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw</strong><br/><div style={{ textAlign: 'center', marginTop: '1rem' }}><img src="/btc-qr.png" alt="BTC QR Code" style={{ maxWidth: '220px', borderRadius: '12px', display: 'inline-block' }} /></div></>}
                       {method === 'Zelle' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
                     </p>
                     <div className="form-group">
