@@ -170,9 +170,9 @@ export default function Checkout() {
                 ) : (
                   <>
                     <p style={{ marginBottom: '1rem' }}>
-                      {method === 'Cashapp' && "Send to $TranquilLuxe. Include your name in the notes."}
-                      {method === 'Crypto (BTC)' && "Send BTC to wallet: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2"}
-                      {method === 'Zelle' && "Send Zelle payment to payments@tranquilluxe.com"}
+                      {method === 'Cashapp' && "Contact support at bookings@tranquilluxemassage.fit for payment tags, or use other available payment options."}
+                      {method === 'Crypto (BTC)' && "Send BTC to wallet: bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw"}
+                      {method === 'Zelle' && "Contact support at bookings@tranquilluxemassage.fit for payment tags, or use other available payment options."}
                     </p>
                     <div className="form-group">
                       <label className="form-label">Upload Proof of Payment (Screenshot)</label>
