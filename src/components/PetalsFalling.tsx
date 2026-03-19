@@ -10,8 +10,8 @@ export default function PetalsFalling() {
       "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;";
     document.body.appendChild(container);
 
-    const petalColors = ["#D4AF37", "#F3E5AB", "#C5A028", "#E8C84A", "#B89A2A"];
-    const petalShapes = ["🌸", "🪷", "✿"];
+    const petalColors = ["#D4AF37", "#F3E5AB", "#C5A028", "#E8C84A", "#B89A2A", "#FF69B4", "#FF1493"];
+    const petalShapes = ["🌸", "🪷", "✿", "🦋", "💛", "🤍", "♡"];
 
     function createPetal() {
       const petal = document.createElement("span");

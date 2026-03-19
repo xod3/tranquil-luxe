@@ -208,7 +208,10 @@ export default function Checkout() {
               <div className={styles.paymentInstructions}>
                 {method === 'Giftcard' ? (
                   <>
-                    <p style={{ marginBottom: '1rem' }}>Please upload images of your physical Giftcard (front and back/pin if needed) and the original receipt.</p>
+                    <div style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem' }}>
+                      <p style={{ margin: 0, fontWeight: 600, color: '#D4AF37' }}>⚠️ Important: Please scratch and reveal the PIN/code on your gift card before uploading. Unscratched cards cannot be validated and your booking will be declined.</p>
+                    </div>
+                    <p style={{ marginBottom: '1rem' }}>Upload clear images of your scratched Giftcard (front showing the revealed PIN) and the original purchase receipt.</p>
                     <div className="form-group">
                       <label className="form-label">Giftcard Image</label>
                       <input type="file" required accept="image/*" className="form-control" onChange={e => handleFileChange(e, "cardImage")} />
