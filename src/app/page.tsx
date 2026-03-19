@@ -8,20 +8,20 @@ const slides = [
   {
     id: 1,
     image: "/slide-team.png",
-    title: "Meet Our Expert Team",
-    subtitle: "Professional male and female masseuses dedicated to your comfort and relaxation.",
+    title: "Private. Exclusive. Unforgettable.",
+    subtitle: "Our handpicked male and female specialists deliver the ultimate in sensual relaxation.",
   },
   {
     id: 2,
     image: "/slide-session.png",
-    title: "Velvet Touch Luxury",
-    subtitle: "Exclusive treatments tailored for complete body renewal — for both men and women.",
+    title: "Surrender to the Touch",
+    subtitle: "Intimate treatments designed to awaken your senses and leave you breathless.",
   },
   {
     id: 3,
     image: "/slide-oils.png",
-    title: "Premium Products",
-    subtitle: "Curated Tranquil Luxe signature oils and blends for the ultimate spa experience.",
+    title: "Indulge in Luxury",
+    subtitle: "Signature oils and exclusive blends crafted for an experience beyond compare.",
   }
 ];
 
@@ -69,12 +69,12 @@ export default function Home() {
       <section className="container mt-8 mb-8 text-center" style={{ padding: '4rem 0' }}>
         <h2 className="section-title">Welcome to Tranquil Luxe</h2>
         <p style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.2rem', color: 'var(--text-muted)' }}>
-          Step into a world of pure exclusivity and serenity. Our expert male and female masseuses are dedicated to providing both men and women with therapeutic, restorative treatments in a private and highly professional environment. We welcome all clients — your comfort and relaxation are our priority.
+          Enter a world where desire meets luxury. Our alluring male and female specialists are masters of the body — dedicated to providing men and women with deeply intimate, therapeutic experiences in a private, discreet, and highly professional environment. Every session is tailored to your deepest needs.
         </p>
         <p style={{ maxWidth: '600px', margin: '2rem auto 0', fontSize: '1rem', color: 'var(--text-muted)' }}>
-          Appointments only. Email us at{' '}
+          By appointment only. Reach us at{' '}
           <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a>{' '}
-          to reserve your session.
+          to arrange your private session.
         </p>
       </section>
     </div>

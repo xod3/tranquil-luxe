@@ -3,19 +3,19 @@
 :root {
   --gold-primary: #D4AF37;
   --gold-light: #F3E5AB;
-  --gold-dark: #AA8C2C;
-  --white-bg: #FAFAFA;
-  --white-pure: #FFFFFF;
-  --text-main: #333333;
-  --text-muted: #666666;
-  --text-light: #999999;
+  --gold-dark: #C5A028;
+  --white-bg: #0D0D0D;
+  --white-pure: #1A1A1A;
+  --text-main: #E8E0D0;
+  --text-muted: #A89F8F;
+  --text-light: #7A7060;
   
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
   
-  --shadow-sm: 0 2px 8px rgba(212, 175, 55, 0.1);
-  --shadow-md: 0 8px 24px rgba(212, 175, 55, 0.15);
-  --shadow-lg: 0 16px 48px rgba(212, 175, 55, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
   
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -63,13 +63,13 @@ a:hover {
 
 /* Navbar */
 .navbar {
-  background-color: var(--white-pure);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background-color: #111111;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 1rem 0;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 .nav-content {
@@ -102,7 +102,7 @@ a:hover {
 }
 
 .nav-button {
-  color: var(--gold-dark);
+  color: var(--gold-light);
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
@@ -114,16 +114,18 @@ a:hover {
 
 .nav-button:hover {
   color: var(--gold-primary);
-  background-color: rgba(197, 160, 89, 0.05); /* Slight gold tint */
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.2);
 }
 
 .cart-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: var(--gold-light);
+  background-color: rgba(212, 175, 55, 0.15);
   border: 1px solid var(--gold-primary);
-  position: relative; /* For the badge positioning */
+  position: relative;
+  color: var(--gold-light);
 }
 
 .cart-button:hover {
@@ -197,7 +199,7 @@ a:hover {
 }
 
 .card {
-  background-color: var(--white-pure);
+  background-color: #1E1E1E;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   padding: 2rem;
@@ -243,11 +245,12 @@ a:hover {
 .form-control {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #EAEAEA;
+  border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: var(--radius-sm);
   font-family: var(--font-sans);
   transition: var(--transition);
-  background-color: var(--white-bg);
+  background-color: #141414;
+  color: var(--text-main);
 }
 
 .form-control:focus {

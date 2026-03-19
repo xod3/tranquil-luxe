@@ -16,14 +16,14 @@ export default function Prices() {
   };
 
   const treatments = [
-    { id: "t1", name: "60 Min - Full Body Relaxation", price: 150, duration: "60 mins", desc: "Deep relaxation massage designed to relieve stress and restore body balance.", category: "signature" },
-    { id: "t2", name: "90 Min - Luxury Therapeutic", price: 220, duration: "90 mins", desc: "A complete body treatment combining relaxation and muscle therapy.", category: "signature" },
-    { id: "t3", name: "120 Min - Elite Body Renewal", price: 300, duration: "120 mins", desc: "Our premium full-body session designed for deep muscle relief and total relaxation.", category: "signature" },
+    { id: "t1", name: "60 Min - Full Body Relaxation", price: 150, duration: "60 mins", desc: "Let every inch of tension melt away as skilled hands guide you into deep, blissful surrender.", category: "signature" },
+    { id: "t2", name: "90 Min - Luxury Therapeutic", price: 220, duration: "90 mins", desc: "A sensuous full-body journey combining pleasure and therapy — designed to leave you craving more.", category: "signature" },
+    { id: "t3", name: "120 Min - Elite Body Renewal", price: 300, duration: "120 mins", desc: "Our most intimate session. Two hours of undivided attention, deep relief, and total indulgence.", category: "signature" },
     
-    { id: "s1", name: "Deep Tissue Therapy", price: 120, duration: "60 mins", desc: "Targets muscle knots and chronic tension.", category: "specialized" },
-    { id: "s2", name: "Hot Stone Relaxation", price: 170, duration: "75 mins", desc: "Warm stones melt tension and promote deep relaxation.", category: "specialized" },
-    { id: "s3", name: "Stress Relief Neck & Back", price: 100, duration: "45 mins", desc: "Focused therapy for upper body tension.", category: "specialized" },
-    { id: "s4", name: "Sensual Massage", price: 220, duration: "30 mins", desc: "An intimate full-body experience designed to awaken your senses with expert touch — the perfect way to unwind and let go completely.", category: "specialized" },
+    { id: "s1", name: "Deep Tissue Therapy", price: 120, duration: "60 mins", desc: "Intense, focused pressure that reaches deep beneath the surface — powerful and deeply satisfying.", category: "specialized" },
+    { id: "s2", name: "Hot Stone Relaxation", price: 170, duration: "75 mins", desc: "Warm stones glide across your body, melting resistance and igniting waves of soothing heat.", category: "specialized" },
+    { id: "s3", name: "Stress Relief Neck & Back", price: 100, duration: "45 mins", desc: "Targeted touch that releases every knot and leaves your most sensitive areas tingling.", category: "specialized" },
+    { id: "s4", name: "Sensual Massage", price: 220, duration: "30 mins", desc: "An intimate full-body experience designed to awaken your deepest senses with expert touch — the ultimate way to unwind and let go completely.", category: "specialized" },
     
     { id: "a1", name: "Aromatherapy oils", price: 25, duration: "", desc: "", category: "addon" },
     { id: "a2", name: "Hot towel treatment", price: 20, duration: "", desc: "", category: "addon" },
@@ -106,9 +106,9 @@ export default function Prices() {
         <div className="container text-center">
           <h2 className="section-title" style={{ color: 'var(--white-pure)' }}>Booking Information</h2>
           <ul className={styles.bookingList}>
-            <li><span className={styles.checkIcon}>✓</span> Appointments only</li>
-            <li><span className={styles.checkIcon}>✓</span> Private and professional environment</li>
-            <li><span className={styles.checkIcon}>✓</span> Email us at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> to reserve your session</li>
+            <li><span className={styles.checkIcon}>✓</span> By private appointment only</li>
+            <li><span className={styles.checkIcon}>✓</span> Discreet, intimate, professional setting</li>
+            <li><span className={styles.checkIcon}>✓</span> Email us at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> to arrange your session</li>
           </ul>
           
           <Link href="/checkout" className="btn btn-primary mt-8">
