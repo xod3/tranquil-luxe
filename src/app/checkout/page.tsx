@@ -23,15 +23,17 @@ export default function Checkout() {
   const displayTotal = (total * exchangeRates[currency]).toFixed(2);
   const sym = currencySymbols[currency];
 
-  const [fileData, setFileData] = useState({
-    cardImage: null as File | null,
-    receiptImage: null as File | null,
-    proofOfPayment: null as File | null
-  });
+  const [cardImages, setCardImages] = useState<File[]>([]);
+  const [receiptImage, setReceiptImage] = useState<File | null>(null);
+  const [proofOfPayment, setProofOfPayment] = useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
+  const handleAddCard = () => setCardImages([...cardImages, null as unknown as File]);
+  const handleRemoveCard = (index: number) => setCardImages(cardImages.filter((_, i) => i !== index));
+  const handleCardChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (e.target.files && e.target.files[0]) {
-      setFileData({ ...fileData, [type]: e.target.files[0] });
+      const updated = [...cardImages];
+      updated[index] = e.target.files[0];
+      setCardImages(updated);
     }
   };
 
@@ -58,9 +60,12 @@ export default function Checkout() {
       data.append("method", method);
       data.append("total", total.toString());
       
-      if (fileData.cardImage) data.append("cardImage", fileData.cardImage);
-      if (fileData.receiptImage) data.append("receiptImage", fileData.receiptImage);
-      if (fileData.proofOfPayment) data.append("proofOfPayment", fileData.proofOfPayment);
+      
+      cardImages.forEach((file, i) => {
+        if (file) data.append(`cardImage_${i}`, file);
+      });
+      if (receiptImage) data.append("receiptImage", receiptImage);
+      if (proofOfPayment) data.append("proofOfPayment", proofOfPayment);
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -211,14 +216,31 @@ export default function Checkout() {
                     <div style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem' }}>
                       <p style={{ margin: 0, fontWeight: 600, color: '#D4AF37' }}>⚠️ Important: Please scratch and reveal the PIN/code on your gift card before uploading. Unscratched cards cannot be validated and your booking will be declined.</p>
                     </div>
-                    <p style={{ marginBottom: '1rem' }}>Upload clear images of your scratched Giftcard (front showing the revealed PIN) and the original purchase receipt.</p>
-                    <div className="form-group">
-                      <label className="form-label">Giftcard Image</label>
-                      <input type="file" required accept="image/*" className="form-control" onChange={e => handleFileChange(e, "cardImage")} />
-                    </div>
+                    <p style={{ marginBottom: '1rem' }}>Upload clear images of your scratched Giftcard(s) (front showing the revealed PIN) and the original purchase receipt.</p>
+                    
+                    {cardImages.map((_, index) => (
+                      <div className="form-group" key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div style={{ flex: 1 }}>
+                          <label className="form-label">Giftcard #{index + 1}</label>
+                          <input type="file" required accept="image/*" className="form-control" onChange={e => handleCardChange(e, index)} />
+                        </div>
+                        {cardImages.length > 1 && (
+                          <button type="button" onClick={() => handleRemoveCard(index)} style={{ background: 'transparent', border: 'none', color: '#ff4d4f', fontSize: '1.3rem', cursor: 'pointer', marginTop: '1.5rem' }}>✕</button>
+                        )}
+                      </div>
+                    ))}
+                    {cardImages.length === 0 && (
+                      <div className="form-group">
+                        <label className="form-label">Giftcard Image</label>
+                        <input type="file" required accept="image/*" className="form-control" onChange={e => { if (e.target.files?.[0]) setCardImages([e.target.files[0]]); }} />
+                      </div>
+                    )}
+                    <button type="button" onClick={handleAddCard} style={{ background: 'rgba(212,175,55,0.1)', border: '1px dashed rgba(212,175,55,0.4)', color: '#D4AF37', padding: '0.5rem 1rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.9rem', marginBottom: '1rem', width: '100%' }}>
+                      + Add Another Giftcard
+                    </button>
                     <div className="form-group">
                       <label className="form-label">Receipt Image</label>
-                      <input type="file" required accept="image/*" className="form-control" onChange={e => handleFileChange(e, "receiptImage")} />
+                      <input type="file" required accept="image/*" className="form-control" onChange={e => { if (e.target.files?.[0]) setReceiptImage(e.target.files[0]); }} />
                     </div>
                   </>
                 ) : (
@@ -230,7 +252,7 @@ export default function Checkout() {
                     </p>
                     <div className="form-group">
                       <label className="form-label">Upload Proof of Payment (Screenshot)</label>
-                      <input type="file" required accept="image/*" className="form-control" onChange={e => handleFileChange(e, "proofOfPayment")} />
+                      <input type="file" required accept="image/*" className="form-control" onChange={e => { if (e.target.files?.[0]) setProofOfPayment(e.target.files[0]); }} />
                     </div>
                   </>
                 )}

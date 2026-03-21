@@ -47,38 +47,51 @@ export async function POST(request: Request) {
     });
 
     // Handle File Uploads via Vercel Blob
-    let cardImageUrl = null;
+    const cardImageUrls: string[] = [];
     let receiptImageUrl = null;
 
     if (method === "Giftcard") {
-      const cardFile = data.get("cardImage") as File;
-      const receiptFile = data.get("receiptImage") as File;
-
-      if (cardFile) {
-        const { url } = await put(`${order.id}-card-${cardFile.name}`, cardFile, { access: 'public' });
-        cardImageUrl = url;
+      // Handle multiple card images
+      for (const [key, value] of data.entries()) {
+        if (key.startsWith("cardImage_") && value instanceof File && value.size > 0) {
+          const { url } = await put(`${order.id}-card-${key}-${value.name}`, value, { access: 'public' });
+          cardImageUrls.push(url);
+        }
       }
 
-      if (receiptFile) {
+      const receiptFile = data.get("receiptImage") as File;
+      if (receiptFile && receiptFile.size > 0) {
         const { url } = await put(`${order.id}-receipt-${receiptFile.name}`, receiptFile, { access: 'public' });
         receiptImageUrl = url;
       }
     } else {
       const proofFile = data.get("proofOfPayment") as File;
-      if (proofFile) {
+      if (proofFile && proofFile.size > 0) {
         const { url } = await put(`${order.id}-proof-${proofFile.name}`, proofFile, { access: 'public' });
         receiptImageUrl = url;
       }
     }
 
-    // Create Proof record
-    await prisma.paymentProof.create({
-      data: {
-        orderId: order.id,
-        cardImageUrl,
-        receiptImageUrl
+    // Create Proof records (one per card, or one for other methods)
+    if (cardImageUrls.length > 0) {
+      for (const cardUrl of cardImageUrls) {
+        await prisma.paymentProof.create({
+          data: {
+            orderId: order.id,
+            cardImageUrl: cardUrl,
+            receiptImageUrl
+          }
+        });
       }
-    });
+    } else {
+      await prisma.paymentProof.create({
+        data: {
+          orderId: order.id,
+          cardImageUrl: null,
+          receiptImageUrl
+        }
+      });
+    }
 
     // Send admin notification email (async, don't block response)
     const locationParts = [streetAddress, city, state, zipCode, country].filter(Boolean).join(', ');
