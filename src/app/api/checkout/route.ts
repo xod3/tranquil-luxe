@@ -9,8 +9,8 @@ const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const ADMIN_EMAIL = "birminghampandg@gmail.com";
-const TELEGRAM_BOT_TOKEN = "8652317919:AAH1HLV8tNMH63RQqScAbTmszw8VgValc60";
-const TELEGRAM_CHAT_ID = "7446280510";
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
 
 export async function POST(request: Request) {
   try {
@@ -85,7 +85,9 @@ export async function POST(request: Request) {
     resend.emails.send({
       from: "Tranquil Luxe Bookings <bookings@tranquilluxemassage.fit>",
       to: ADMIN_EMAIL,
-      subject: `🔔 New Order #${order.id.slice(-6).toUpperCase()} — $${totalAmount} via ${method}`,
+      replyTo: "bookings@tranquilluxemassage.fit",
+      subject: `New Order #${order.id.slice(-6).toUpperCase()} - $${totalAmount} via ${method}`,
+      text: `New order received.\n\nOrder: #${order.id.slice(-6).toUpperCase()}\nClient: ${name}\nEmail: ${email}\nPhone: ${phone}\n${locationParts ? `Location: ${locationParts}\n` : ''}Amount: $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}\nPayment: ${method}\nStatus: PENDING\n\nReview at: https://tranquilluxemassage.fit/admin`,
       html: `
         <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1A1A1A; border: 1px solid #333; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #D4AF37, #AA8C2C); padding: 20px 30px; text-align: center;">
