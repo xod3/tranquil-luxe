@@ -127,17 +127,20 @@ Status: PENDING
 
 Review: https://tranquilluxemassage.fit/admin`;
 
-      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: tgMsg,
-        }),
-      })
-      .then(res => res.json())
-      .then(data => { if (!data.ok) console.error("Telegram API error:", data); })
-      .catch(err => console.error("Telegram notification failed:", err));
+      try {
+        const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: tgMsg,
+          }),
+        });
+        const tgData = await tgRes.json();
+        if (!tgData.ok) console.error("Telegram API error:", tgData);
+      } catch (err) {
+        console.error("Telegram notification failed:", err);
+      }
     }
 
     return NextResponse.json({ success: true, orderId: order.id });
