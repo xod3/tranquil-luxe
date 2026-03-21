@@ -12,6 +12,11 @@ export default async function AdminPage() {
     orderBy: { createdAt: "desc" }
   });
 
+  let leads: any[] = [];
+  try {
+    leads = await (prisma as any).lead.findMany({ orderBy: { createdAt: "desc" } });
+  } catch { /* Lead model may not exist in DB yet */ }
+
   return (
     <div className="container mt-8 mb-8" style={{ minHeight: '80vh', paddingTop: '80px' }}>
       <h1 className="section-title">Admin Dashboard</h1>
@@ -76,6 +81,47 @@ export default async function AdminPage() {
         ))}
 
         {orders.length === 0 && <p className="text-center">No orders found.</p>}
+      </div>
+
+      {/* Leads Section */}
+      <div style={{ marginTop: '4rem' }}>
+        <h2 className="section-title" style={{ fontSize: '2rem' }}>📍 Leads &amp; Visitors</h2>
+        <p className="text-center mb-8" style={{ color: 'var(--text-muted)' }}>
+          Potential clients captured from popup — {leads.length} total
+        </p>
+
+        {leads.length > 0 ? (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid rgba(212,175,55,0.2)' }}>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Name</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Email</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>City</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Region</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Country</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Source</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leads.map((lead: any) => (
+                  <tr key={lead.id} style={{ borderBottom: '1px solid rgba(212,175,55,0.08)' }}>
+                    <td style={{ padding: '0.7rem', color: '#F3E5AB' }}>{lead.name || '—'}</td>
+                    <td style={{ padding: '0.7rem' }}><a href={`mailto:${lead.email}`} style={{ color: '#D4AF37' }}>{lead.email}</a></td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-muted)' }}>{lead.city || '—'}</td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-muted)' }}>{lead.region || '—'}</td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-muted)' }}>{lead.country || '—'}</td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-light)' }}>{lead.source || 'popup'}</td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-light)', fontSize: '0.8rem' }}>{new Date(lead.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-center" style={{ color: 'var(--text-muted)' }}>No leads captured yet.</p>
+        )}
       </div>
     </div>
   );

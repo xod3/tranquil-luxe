@@ -40,3 +40,15 @@ model PaymentProof {
   uploadedAt      DateTime @default(now())
   order           Order    @relation(fields: [orderId], references: [id])
 }
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String
+  ip        String?
+  city      String?
+  region    String?
+  country   String?
+  source    String?  @default("popup") // popup, checkout, etc.
+  createdAt DateTime @default(now())
+}

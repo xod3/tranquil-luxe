@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "../components/CartProvider";
 import Navbar from "../components/Navbar";
 import PetalsFalling from "../components/PetalsFalling";
+import LeadCapturePopup from "../components/LeadCapturePopup";
 
 export const metadata: Metadata = {
   title: "Tranquil Luxe Massage | Premium Experience",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <CartProvider>
           <Navbar />
           <PetalsFalling />
+          <LeadCapturePopup />
           <main>{children}</main>
           <footer className="footer">
             <div className="container text-center">
