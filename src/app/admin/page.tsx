@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import styles from "./admin.module.css";
 import AdminActions from "./AdminActions";
+import DeleteOrderButton from "./DeleteOrderButton";
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,7 @@ export default async function AdminPage() {
               <div className={styles.statusBadge} data-status={order.status}>
                 {order.status.toUpperCase()}
               </div>
+              <DeleteOrderButton orderId={order.id} />
             </div>
 
             <div className={styles.orderDetails}>
