@@ -114,29 +114,31 @@ export async function POST(request: Request) {
     }).catch(err => console.error("Admin notification email failed:", err));
 
     // Send Telegram notification (async, don't block response)
-    const telegramMessage = `🔔 *NEW ORDER RECEIVED*
+    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+      const tgMsg = `NEW ORDER RECEIVED
 
-📋 *Order:* #${order.id.slice(-6).toUpperCase()}
-👤 *Client:* ${name}
-📧 *Email:* ${email}
-📱 *Phone:* ${phone}
-${locationParts ? `📍 *Location:* ${locationParts}` : ''}
-💰 *Amount:* $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}
-💳 *Payment:* ${method}
-⏳ *Status:* PENDING
+Order: #${order.id.slice(-6).toUpperCase()}
+Client: ${name}
+Email: ${email}
+Phone: ${phone}
+${locationParts ? `Location: ${locationParts}\n` : ''}Amount: ${totalAmount} USD ${currency !== 'USD' ? `(${currency})` : ''}
+Payment: ${method}
+Status: PENDING
 
-👉 [Review & Confirm Order](https://tranquilluxemassage.fit/admin)`;
+Review: https://tranquilluxemassage.fit/admin`;
 
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: telegramMessage,
-        parse_mode: "Markdown",
-        disable_web_page_preview: true,
-      }),
-    }).catch(err => console.error("Telegram notification failed:", err));
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: tgMsg,
+        }),
+      })
+      .then(res => res.json())
+      .then(data => { if (!data.ok) console.error("Telegram API error:", data); })
+      .catch(err => console.error("Telegram notification failed:", err));
+    }
 
     return NextResponse.json({ success: true, orderId: order.id });
   } catch (error) {
