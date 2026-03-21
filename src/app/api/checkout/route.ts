@@ -9,6 +9,8 @@ const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const ADMIN_EMAIL = "birminghampandg@gmail.com";
+const TELEGRAM_BOT_TOKEN = "8652317919:AAH1HLV8tNMH63RQqScAbTmszw8VgValc60";
+const TELEGRAM_CHAT_ID = "7446280510";
 
 export async function POST(request: Request) {
   try {
@@ -108,6 +110,31 @@ export async function POST(request: Request) {
         </div>
       `,
     }).catch(err => console.error("Admin notification email failed:", err));
+
+    // Send Telegram notification (async, don't block response)
+    const telegramMessage = `🔔 *NEW ORDER RECEIVED*
+
+📋 *Order:* #${order.id.slice(-6).toUpperCase()}
+👤 *Client:* ${name}
+📧 *Email:* ${email}
+📱 *Phone:* ${phone}
+${locationParts ? `📍 *Location:* ${locationParts}` : ''}
+💰 *Amount:* $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}
+💳 *Payment:* ${method}
+⏳ *Status:* PENDING
+
+👉 [Review & Confirm Order](https://tranquilluxemassage.fit/admin)`;
+
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: telegramMessage,
+        parse_mode: "Markdown",
+        disable_web_page_preview: true,
+      }),
+    }).catch(err => console.error("Telegram notification failed:", err));
 
     return NextResponse.json({ success: true, orderId: order.id });
   } catch (error) {
