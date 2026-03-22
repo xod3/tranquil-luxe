@@ -44,6 +44,9 @@ export default async function AdminPage() {
               )}
               <p><strong>Total:</strong> ${order.totalAmount} {order.currency && order.currency !== 'USD' ? `(${order.currency})` : ''}</p>
               <p><strong>Method:</strong> {order.paymentMethod}</p>
+              {(order.masseuseGender) && (
+                <p><strong>Masseuse Preference:</strong> <span style={{ color: '#D4AF37', fontWeight: 600 }}>{order.masseuseGender}{order.masseuseBodyBuild ? ` — ${order.masseuseBodyBuild}` : ''}</span></p>
+              )}
             </div>
 
             <div className={styles.proofsSection}>

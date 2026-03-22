@@ -98,3 +98,129 @@
     font-size: 1.2rem;
   }
 }
+
+/* Reviews Carousel */
+.reviewsCarousel {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 280px;
+}
+
+.reviewSlide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.reviewActive {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.reviewCard {
+  background: #1A1A1A;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.reviewCard:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.reviewText {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-style: italic;
+  margin: 0 0 1.5rem;
+}
+
+.reviewAuthor {
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
+  padding-top: 1rem;
+}
+
+.reviewArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #D4AF37;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.reviewArrow:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: #D4AF37;
+}
+
+.reviewArrowLeft {
+  left: -60px;
+}
+
+.reviewArrowRight {
+  right: -60px;
+}
+
+.reviewDots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.reviewDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.reviewDotActive {
+  background-color: #D4AF37;
+  border-color: #D4AF37;
+  transform: scale(1.3);
+}
+
+@media (max-width: 768px) {
+  .reviewArrowLeft {
+    left: -10px;
+  }
+  .reviewArrowRight {
+    right: -10px;
+  }
+  .reviewsCarousel {
+    padding: 0 2rem;
+  }
+  .reviewCard {
+    padding: 1.8rem 1.2rem;
+  }
+  .reviewText {
+    font-size: 0.95rem;
+  }
+}

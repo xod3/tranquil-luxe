@@ -13,8 +13,13 @@ export default function Checkout() {
 
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "",
-    country: "", state: "", city: "", zipCode: "", streetAddress: ""
+    country: "", state: "", city: "", zipCode: "", streetAddress: "",
+    masseuseGender: "", masseuseBodyBuild: ""
   });
+
+  const femaleBodyBuilds = ["Petite", "Slim", "Athletic", "Curvy", "Plus Size"];
+  const maleBodyBuilds = ["Lean", "Athletic", "Muscular", "Average", "Built / Large"];
+  const bodyBuildOptions = formData.masseuseGender === "Male" ? maleBodyBuilds : femaleBodyBuilds;
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [currency, setCurrency] = useState("USD");
 
@@ -56,6 +61,8 @@ export default function Checkout() {
       data.append("city", formData.city);
       data.append("zipCode", formData.zipCode);
       data.append("streetAddress", formData.streetAddress);
+      data.append("masseuseGender", formData.masseuseGender);
+      data.append("masseuseBodyBuild", formData.masseuseBodyBuild);
       data.append("currency", currency);
       data.append("method", method);
       data.append("total", total.toString());
@@ -139,6 +146,29 @@ export default function Checkout() {
               <input type="tel" required className="form-control" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
             </div>
 
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Masseuse Preference</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1rem', marginTop: '-0.5rem' }}>Choose your ideal masseuse to personalize your experience.</p>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">Gender</label>
+                <select required className="form-control" value={formData.masseuseGender} onChange={e => setFormData({...formData, masseuseGender: e.target.value, masseuseBodyBuild: ""})} style={{ cursor: 'pointer' }}>
+                  <option value="">Select Gender</option>
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">Body Build</label>
+                <select required className="form-control" value={formData.masseuseBodyBuild} onChange={e => setFormData({...formData, masseuseBodyBuild: e.target.value})} style={{ cursor: 'pointer' }} disabled={!formData.masseuseGender}>
+                  <option value="">{formData.masseuseGender ? 'Select Build' : 'Select gender first'}</option>
+                  {formData.masseuseGender && bodyBuildOptions.map(b => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
             <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Currency & Location</h2>
             
             <div className="form-group">
@@ -160,7 +190,7 @@ export default function Checkout() {
                 <option value="DE">Germany</option>
                 <option value="FR">France</option>
                 <option value="AU">Australia</option>
-                <option value="NG">Nigeria</option>
+
                 <option value="GH">Ghana</option>
                 <option value="ZA">South Africa</option>
                 <option value="AE">United Arab Emirates</option>

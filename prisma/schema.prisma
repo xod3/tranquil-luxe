@@ -27,6 +27,8 @@ model Order {
   status               String         @default("pending") // pending, confirmed, declined
   paymentConfirmedCode String?
   adminNote            String?        // Note added by admin when confirming or declining
+  masseuseGender       String?
+  masseuseBodyBuild    String?
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   paymentProofs        PaymentProof[]

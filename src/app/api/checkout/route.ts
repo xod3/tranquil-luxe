@@ -27,6 +27,8 @@ export async function POST(request: Request) {
     const currency = data.get("currency") as string || "USD";
     const method = data.get("method") as string;
     const totalAmount = parseFloat(data.get("total") as string);
+    const masseuseGender = data.get("masseuseGender") as string || null;
+    const masseuseBodyBuild = data.get("masseuseBodyBuild") as string || null;
 
     // Save to DB
     const order = await prisma.order.create({
@@ -42,6 +44,8 @@ export async function POST(request: Request) {
         currency,
         totalAmount,
         paymentMethod: method,
+        masseuseGender,
+        masseuseBodyBuild,
         status: "pending"
       }
     });
@@ -100,7 +104,7 @@ export async function POST(request: Request) {
       to: ADMIN_EMAIL,
       replyTo: "bookings@tranquilluxemassage.fit",
       subject: `New Order #${order.id.slice(-6).toUpperCase()} - $${totalAmount} via ${method}`,
-      text: `New order received.\n\nOrder: #${order.id.slice(-6).toUpperCase()}\nClient: ${name}\nEmail: ${email}\nPhone: ${phone}\n${locationParts ? `Location: ${locationParts}\n` : ''}Amount: $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}\nPayment: ${method}\nStatus: PENDING\n\nReview at: https://tranquilluxemassage.fit/admin`,
+      text: `New order received.\n\nOrder: #${order.id.slice(-6).toUpperCase()}\nClient: ${name}\nEmail: ${email}\nPhone: ${phone}\n${locationParts ? `Location: ${locationParts}\n` : ''}${masseuseGender ? `Masseuse: ${masseuseGender}${masseuseBodyBuild ? ` (${masseuseBodyBuild})` : ''}\n` : ''}Amount: $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}\nPayment: ${method}\nStatus: PENDING\n\nReview at: https://tranquilluxemassage.fit/admin`,
       html: `
         <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1A1A1A; border: 1px solid #333; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #D4AF37, #AA8C2C); padding: 20px 30px; text-align: center;">
@@ -115,6 +119,7 @@ export async function POST(request: Request) {
               ${locationParts ? `<tr><td style="padding: 8px 0; color: #A89F8F;">Location</td><td style="padding: 8px 0;">${locationParts}</td></tr>` : ''}
               <tr><td style="padding: 8px 0; color: #A89F8F;">Amount</td><td style="padding: 8px 0; font-weight: bold; color: #D4AF37; font-size: 18px;">$${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}</td></tr>
               <tr><td style="padding: 8px 0; color: #A89F8F;">Payment</td><td style="padding: 8px 0;">${method}</td></tr>
+              ${masseuseGender ? `<tr><td style="padding: 8px 0; color: #A89F8F;">Masseuse Pref</td><td style="padding: 8px 0;"><span style="color: #F3E5AB; font-weight: bold;">${masseuseGender}${masseuseBodyBuild ? ` — ${masseuseBodyBuild}` : ''}</span></td></tr>` : ''}
               <tr><td style="padding: 8px 0; color: #A89F8F;">Status</td><td style="padding: 8px 0;"><span style="background: #f59e0b; color: #111; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: bold;">PENDING</span></td></tr>
             </table>
             <div style="margin-top: 25px; text-align: center;">
@@ -134,7 +139,7 @@ Order: #${order.id.slice(-6).toUpperCase()}
 Client: ${name}
 Email: ${email}
 Phone: ${phone}
-${locationParts ? `Location: ${locationParts}\n` : ''}Amount: ${totalAmount} USD ${currency !== 'USD' ? `(${currency})` : ''}
+${locationParts ? `Location: ${locationParts}\n` : ''}${masseuseGender ? `Masseuse: ${masseuseGender}${masseuseBodyBuild ? ` (${masseuseBodyBuild})` : ''}\n` : ''}Amount: ${totalAmount} USD ${currency !== 'USD' ? `(${currency})` : ''}
 Payment: ${method}
 Status: PENDING
 

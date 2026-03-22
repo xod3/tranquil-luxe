@@ -25,13 +25,32 @@ const slides = [
   }
 ];
 
+const reviews = [
+  { name: "Isabella R.", location: "Los Angeles, USA", stars: 5, text: "They came right to my home and set up everything perfectly. The sensual massage was unlike anything I've ever experienced — my therapist knew exactly how to make me melt. Pure heaven." },
+  { name: "James T.", location: "London, UK", stars: 5, text: "I've booked private massage services across Europe, but nothing compares to Tranquil Luxe. The discretion, the skill, the intimacy — all from the comfort of my own suite. A masterclass." },
+  { name: "Amara D.", location: "California, USA", stars: 5, text: "Booking was seamless and my therapist arrived right on time. The deep tissue session in my living room felt like a 5-star experience. Worth every dollar, and I didn't even have to leave home." },
+  { name: "Sophie M.", location: "Paris, France", stars: 5, text: "Incroyable! They brought everything — the table, the oils, the candles. The hot stone session in my apartment was pure indulgence. My skin felt like silk for days. Already booked my next one." },
+  { name: "David K.", location: "Toronto, Canada", stars: 5, text: "The 120-minute Elite Body Renewal at my place was the most relaxing two hours of my life. Completely discreet, deeply professional, and I didn't have to step outside. A hidden gem of a service." },
+  { name: "Yuki H.", location: "Tokyo, Japan", stars: 5, text: "Exceptional attention to detail from start to finish. They arrived at my hotel, set up quietly, and every touch was precise and purposeful. Having this level of luxury come to you is unmatched." },
+  { name: "Carlos M.", location: "Dubai, UAE", stars: 5, text: "I travel the world for business and always book Tranquil Luxe wherever I stay. They send the most skilled therapists right to my suite — the convenience and quality are in a league of their own." },
+  { name: "Lena W.", location: "Berlin, Germany", stars: 5, text: "A friend recommended booking a private session and I'm so glad I did. The therapist came to my home, created the perfect ambiance, and left me feeling completely rejuvenated. Absolutely 10/10." }
+];
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentReview, setCurrentReview] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentReview((prev) => (prev + 1) % reviews.length);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -84,42 +103,53 @@ export default function Home() {
           <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem', marginTop: '-1.5rem', fontSize: '1.1rem' }}>
             Trusted by clients worldwide
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-            {[
-              { name: "Isabella R.", location: "Los Angeles, USA", stars: 5, text: "They came right to my home and set up everything perfectly. The sensual massage was unlike anything I've ever experienced — my therapist knew exactly how to make me melt. Pure heaven." },
-              { name: "James T.", location: "London, UK", stars: 5, text: "I've booked private massage services across Europe, but nothing compares to Tranquil Luxe. The discretion, the skill, the intimacy — all from the comfort of my own suite. A masterclass." },
-              { name: "Amara O.", location: "Lagos, Nigeria", stars: 5, text: "Booking was seamless and my therapist arrived right on time. The deep tissue session in my living room felt like a 5-star experience. Worth every dollar, and I didn't even have to leave home." },
-              { name: "Sophie M.", location: "Paris, France", stars: 5, text: "Incroyable! They brought everything — the table, the oils, the candles. The hot stone session in my apartment was pure indulgence. My skin felt like silk for days. Already booked my next one." },
-              { name: "David K.", location: "Toronto, Canada", stars: 5, text: "The 120-minute Elite Body Renewal at my place was the most relaxing two hours of my life. Completely discreet, deeply professional, and I didn't have to step outside. A hidden gem of a service." },
-              { name: "Yuki H.", location: "Tokyo, Japan", stars: 5, text: "Exceptional attention to detail from start to finish. They arrived at my hotel, set up quietly, and every touch was precise and purposeful. Having this level of luxury come to you is unmatched." },
-              { name: "Carlos M.", location: "Dubai, UAE", stars: 5, text: "I travel the world for business and always book Tranquil Luxe wherever I stay. They send the most skilled therapists right to my suite — the convenience and quality are in a league of their own." },
-              { name: "Lena W.", location: "Berlin, Germany", stars: 5, text: "A friend recommended booking a private session and I'm so glad I did. The therapist came to my home, created the perfect ambiance, and left me feeling completely rejuvenated. Absolutely 10/10." }
-            ].map((review, i) => (
-              <div key={i} style={{
-                background: '#1A1A1A',
-                border: '1px solid rgba(212,175,55,0.12)',
-                borderRadius: '12px',
-                padding: '1.8rem',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.8rem',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(212,175,55,0.4)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(212,175,55,0.12)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
+
+          <div className={styles.reviewsCarousel}>
+            {reviews.map((review, i) => (
+              <div
+                key={i}
+                className={`${styles.reviewSlide} ${i === currentReview ? styles.reviewActive : ''}`}
               >
-                <div style={{ color: '#D4AF37', fontSize: '1.1rem', letterSpacing: '2px' }}>
-                  {'★'.repeat(review.stars)}
-                </div>
-                <p style={{ color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: 1.7, fontStyle: 'italic', flex: 1 }}>
-                  &ldquo;{review.text}&rdquo;
-                </p>
-                <div style={{ borderTop: '1px solid rgba(212,175,55,0.1)', paddingTop: '0.8rem', marginTop: '0.5rem' }}>
-                  <p style={{ fontWeight: 600, color: '#F3E5AB', margin: 0, fontSize: '0.95rem' }}>{review.name}</p>
-                  <p style={{ color: 'var(--text-light)', margin: 0, fontSize: '0.85rem' }}>{review.location}</p>
+                <div className={styles.reviewCard}>
+                  <div style={{ color: '#D4AF37', fontSize: '1.3rem', letterSpacing: '3px', marginBottom: '1rem' }}>
+                    {'★'.repeat(review.stars)}
+                  </div>
+                  <p className={styles.reviewText}>
+                    &ldquo;{review.text}&rdquo;
+                  </p>
+                  <div className={styles.reviewAuthor}>
+                    <p style={{ fontWeight: 600, color: '#F3E5AB', margin: 0, fontSize: '1.05rem' }}>{review.name}</p>
+                    <p style={{ color: 'var(--text-light)', margin: 0, fontSize: '0.9rem' }}>{review.location}</p>
+                  </div>
                 </div>
               </div>
             ))}
+
+            <button
+              className={`${styles.reviewArrow} ${styles.reviewArrowLeft}`}
+              onClick={() => setCurrentReview((prev) => (prev - 1 + reviews.length) % reviews.length)}
+              aria-label="Previous review"
+            >
+              ‹
+            </button>
+            <button
+              className={`${styles.reviewArrow} ${styles.reviewArrowRight}`}
+              onClick={() => setCurrentReview((prev) => (prev + 1) % reviews.length)}
+              aria-label="Next review"
+            >
+              ›
+            </button>
+
+            <div className={styles.reviewDots}>
+              {reviews.map((_, i) => (
+                <button
+                  key={i}
+                  className={`${styles.reviewDot} ${i === currentReview ? styles.reviewDotActive : ''}`}
+                  onClick={() => setCurrentReview(i)}
+                  aria-label={`Go to review ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -27,7 +27,8 @@ export default function Prices() {
     
     { id: "a1", name: "Aromatherapy oils", price: 25, duration: "", desc: "", category: "addon" },
     { id: "a2", name: "Hot towel treatment", price: 20, duration: "", desc: "", category: "addon" },
-    { id: "a3", name: "Extended massage time (15 mins)", price: 30, duration: "", desc: "", category: "addon" }
+    { id: "a3", name: "Extended massage time (15 mins)", price: 30, duration: "", desc: "", category: "addon" },
+    { id: "a4", name: "Additional Masseuse", price: 250, duration: "", desc: "Add a second masseuse to your session for an elevated, unforgettable experience.", category: "addon" }
   ];
 
   return (
