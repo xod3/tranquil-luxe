@@ -1,0 +1,248 @@
+.blogContainer {
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+/* Blog Index */
+.blogHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.blogSubtitle {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  max-width: 600px;
+  margin: -1.5rem auto 0;
+}
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.postCard {
+  background: #1A1A1A;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.postCard:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.postCardBody {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.postCategory {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.1);
+  color: #D4AF37;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  width: fit-content;
+}
+
+.postTitle {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #F3E5AB;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.postExcerpt {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: 1.2rem;
+}
+
+.postMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(212, 175, 55, 0.08);
+  padding-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+
+.readMore {
+  color: #D4AF37;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: all 0.3s ease;
+}
+
+.readMore:hover {
+  color: #F3E5AB;
+  text-decoration: underline;
+}
+
+/* Blog Post Page */
+.postContainer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.postHeaderSection {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.postPageTitle {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  color: #F3E5AB;
+  line-height: 1.25;
+  margin-bottom: 1.2rem;
+}
+
+.postPageMeta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.postContent {
+  color: var(--text-main);
+  font-size: 1.08rem;
+  line-height: 1.9;
+}
+
+.postContent h2 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: #D4AF37;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.postContent h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: #F3E5AB;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.postContent p {
+  margin-bottom: 1.3rem;
+}
+
+.postContent strong {
+  color: #F3E5AB;
+}
+
+.postContent em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.postContent ul,
+.postContent ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+  color: var(--text-main);
+}
+
+.postContent li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.postContent a {
+  color: #D4AF37;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+}
+
+.postContent a:hover {
+  color: #F3E5AB;
+}
+
+.postContent blockquote {
+  border-left: 3px solid #D4AF37;
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: rgba(212, 175, 55, 0.04);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #D4AF37;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color 0.3s;
+}
+
+.backLink:hover {
+  color: #F3E5AB;
+}
+
+.postCta {
+  margin-top: 3rem;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.postCta h3 {
+  font-family: var(--font-serif);
+  color: #F3E5AB;
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.postCta p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .postPageTitle {
+    font-size: 2rem;
+  }
+  .postsGrid {
+    grid-template-columns: 1fr;
+  }
+  .postContainer {
+    padding: 0 1rem 3rem;
+  }
+}
