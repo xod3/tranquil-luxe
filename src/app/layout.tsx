@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import PetalsFalling from "../components/PetalsFalling";
 import LeadCapturePopup from "../components/LeadCapturePopup";
 
-const SITE_URL = "https://tranquilluxemassage.fit";
+const SITE_URL = "https://www.tranquilluxemassage.fit";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -99,14 +99,14 @@ export default async function BlogPost({ params }: Props) {
     author: {
       "@type": "Organization",
       name: "Tranquil Luxe Massage",
-      url: "https://tranquilluxemassage.fit",
+      url: "https://www.tranquilluxemassage.fit",
     },
     publisher: {
       "@type": "Organization",
       name: "Tranquil Luxe Massage",
       logo: {
         "@type": "ImageObject",
-        url: "https://tranquilluxemassage.fit/logo.png",
+        url: "https://www.tranquilluxemassage.fit/logo.png",
       },
     },
   };

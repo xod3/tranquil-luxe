@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllSlugs } from "./blog/blogData";
 
-const SITE_URL = "https://tranquilluxemassage.fit";
+const SITE_URL = "https://www.tranquilluxemassage.fit";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
