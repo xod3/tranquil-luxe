@@ -1,13 +1,7 @@
 import type { MetadataRoute } from "next";
+import { getAllSlugs } from "./blog/blogData";
 
 const SITE_URL = "https://tranquilluxemassage.fit";
-
-const blogSlugs = [
-  "benefits-of-sensual-massage",
-  "why-in-home-luxury-massage-is-the-future",
-  "how-to-choose-the-right-massage",
-  "the-art-of-couples-massage",
-];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
@@ -17,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
   ];
 
-  const blogPages = blogSlugs.map((slug) => ({
+  const blogPages = getAllSlugs().map((slug) => ({
     url: `${SITE_URL}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
