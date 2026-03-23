@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from "../../components/CartProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./checkout.module.css";
 import { useRouter } from "next/navigation";
 
@@ -22,10 +22,33 @@ export default function Checkout() {
   const bodyBuildOptions = formData.masseuseGender === "Male" ? maleBodyBuilds : femaleBodyBuilds;
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [currency, setCurrency] = useState("USD");
+  const [isFirstTime, setIsFirstTime] = useState(false);
+  
+  const isEasterPromoActive = new Date() <= new Date('2026-04-16T00:00:00Z');
+
+  useEffect(() => {
+    if (!formData.email || !formData.email.includes('@')) {
+      setIsFirstTime(false);
+      return;
+    }
+    const timeoutId = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/check-customer?email=${encodeURIComponent(formData.email)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setIsFirstTime(data.isFirstTime);
+        }
+      } catch (err) {}
+    }, 800);
+    return () => clearTimeout(timeoutId);
+  }, [formData.email]);
+
+  const discountAmount = (isEasterPromoActive && isFirstTime) ? total * 0.1 : 0;
+  const finalTotal = total - discountAmount;
 
   const currencySymbols: Record<string, string> = { USD: "$", EUR: "€", GBP: "£" };
   const exchangeRates: Record<string, number> = { USD: 1, EUR: 0.92, GBP: 0.79 };
-  const displayTotal = (total * exchangeRates[currency]).toFixed(2);
+  const displayTotal = (finalTotal * exchangeRates[currency]).toFixed(2);
   const sym = currencySymbols[currency];
 
   const [cardImages, setCardImages] = useState<File[]>([]);
@@ -65,7 +88,10 @@ export default function Checkout() {
       data.append("masseuseBodyBuild", formData.masseuseBodyBuild);
       data.append("currency", currency);
       data.append("method", method);
-      data.append("total", total.toString());
+      data.append("total", finalTotal.toString());
+      if (discountAmount > 0) {
+        data.append("discountInfo", "Easter 10% First-Time Promo");
+      }
       
       
       cardImages.forEach((file, i) => {
@@ -119,8 +145,14 @@ export default function Checkout() {
                   </li>
                 ))}
               </ul>
+              {discountAmount > 0 && (
+                <div style={{ padding: '15px 20px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', color: '#D4AF37', fontWeight: 'bold' }}>
+                  <span>🌸 Easter 10% Off Promo</span>
+                  <span>-{sym}{(discountAmount * exchangeRates[currency]).toFixed(2)} {currency}</span>
+                </div>
+              )}
               <div className={styles.cartTotal}>
-                <span>Total</span>
+                <span>{discountAmount > 0 ? "Final Total" : "Total"}</span>
                 <span>{sym}{displayTotal} {currency}</span>
               </div>
             </>
