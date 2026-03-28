@@ -54,3 +54,9 @@ model Lead {
   source    String?  @default("popup") // popup, checkout, etc.
   createdAt DateTime @default(now())
 }
+
+model UnsubscribedContact {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
