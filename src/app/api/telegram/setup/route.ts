@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
-const WEBHOOK_URL = "https://tranquilluxemassage.fit/api/telegram/webhook";
+const WEBHOOK_URL = "https://www.tranquilluxemassage.fit/api/telegram/webhook";
 
 /**
  * GET /api/telegram/setup — One-time call to register the webhook with Telegram.
