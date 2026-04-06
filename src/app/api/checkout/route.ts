@@ -133,31 +133,65 @@ export async function POST(request: Request) {
       `,
     }).catch(err => console.error("Admin notification email failed:", err));
 
-    // Send Telegram notification (async, don't block response)
+    // Send Telegram notification with inline admin buttons
     if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-      const tgMsg = `NEW ORDER RECEIVED
+      const tgMsg = `🔔 *NEW ORDER RECEIVED*
 
 Order: #${order.id.slice(-6).toUpperCase()}
 Client: ${name}
 Email: ${email}
 Phone: ${phone}
-${locationParts ? `Location: ${locationParts}\n` : ''}${masseuseGender ? `Masseuse: ${masseuseGender}${masseuseBodyBuild ? ` (${masseuseBodyBuild})` : ''}\n` : ''}Amount: ${totalAmount} USD ${currency !== 'USD' ? `(${currency})` : ''}
+${locationParts ? `Location: ${locationParts}\n` : ''}${masseuseGender ? `Masseuse: ${masseuseGender}${masseuseBodyBuild ? ` (${masseuseBodyBuild})` : ''}\n` : ''}${discountInfo ? `Promo: ${discountInfo}\n` : ''}Amount: $${totalAmount} ${currency !== 'USD' ? `(${currency})` : ''}
 Payment: ${method}
-Status: PENDING
-
-Review: https://tranquilluxemassage.fit/admin`;
+Status: ⏳ PENDING`;
 
       try {
+        // Send main message with inline confirm/decline buttons
         const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
             text: tgMsg,
+            parse_mode: "Markdown",
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: "✅ Confirm Payment", callback_data: `confirm:${order.id}` },
+                  { text: "❌ Decline Payment", callback_data: `decline:${order.id}` },
+                ],
+              ],
+            },
           }),
         });
         const tgData = await tgRes.json();
         if (!tgData.ok) console.error("Telegram API error:", tgData);
+
+        // Send proof images directly in chat so admin can review
+        const allProofUrls: { url: string; type: string }[] = [];
+        for (const cardUrl of cardImageUrls) {
+          allProofUrls.push({ url: cardUrl, type: "🎴 Gift Card" });
+        }
+        if (receiptImageUrl) {
+          allProofUrls.push({ url: receiptImageUrl, type: "🧾 Receipt/Proof" });
+        }
+
+        for (const proof of allProofUrls) {
+          try {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                photo: proof.url,
+                caption: `${proof.type} — Order #${order.id.slice(-6).toUpperCase()}`,
+                reply_to_message_id: tgData.result?.message_id,
+              }),
+            });
+          } catch (photoErr) {
+            console.error("Failed to send proof photo to Telegram:", photoErr);
+          }
+        }
       } catch (err) {
         console.error("Telegram notification failed:", err);
       }
