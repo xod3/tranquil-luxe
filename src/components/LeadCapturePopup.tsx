@@ -89,8 +89,22 @@ export default function LeadCapturePopup() {
               <h3 style={{ fontFamily: "'Playfair Display', serif", color: '#F3E5AB', fontSize: '1.5rem', margin: '0 0 0.5rem' }}>
                 Exclusive Access
               </h3>
-              <p style={{ color: '#A89F8F', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                Get early access to VIP offers, private session deals, and new service announcements.
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(243,229,171,0.08))',
+                border: '1px solid rgba(212,175,55,0.3)',
+                borderRadius: '10px',
+                padding: '0.75rem 1rem',
+                margin: '0.75rem 0',
+              }}>
+                <p style={{ color: '#F3E5AB', fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.2rem', letterSpacing: '0.3px' }}>
+                  🎉 Get <span style={{ color: '#D4AF37', fontSize: '1.3rem' }}>10% OFF</span> Your First Session
+                </p>
+                <p style={{ color: '#A89F8F', fontSize: '0.82rem', margin: 0 }}>
+                  Discount applied automatically at checkout
+                </p>
+              </div>
+              <p style={{ color: '#A89F8F', fontSize: '0.92rem', lineHeight: 1.6, marginTop: '0.6rem' }}>
+                Join our VIP list for private session deals, early access offers, and new service announcements.
               </p>
             </div>
 
@@ -127,29 +141,41 @@ export default function LeadCapturePopup() {
                 />
               </div>
               <button type="submit" disabled={isSubmitting} style={{
-                width: '100%', padding: '0.85rem',
+                width: '100%', padding: '0.9rem',
                 background: 'linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%)',
                 border: 'none', borderRadius: '8px',
-                color: '#111', fontWeight: 600, fontSize: '1rem',
+                color: '#111', fontWeight: 700, fontSize: '1rem',
                 cursor: 'pointer', fontFamily: "'Inter', sans-serif",
-                letterSpacing: '0.5px',
+                letterSpacing: '0.3px',
+                boxShadow: '0 4px 15px rgba(212,175,55,0.3)',
               }}>
-                {isSubmitting ? "Submitting..." : "Unlock Exclusive Offers"}
+                {isSubmitting ? "Submitting..." : "🔓 Unlock 10% OFF & Exclusive Offers"}
               </button>
-              <p style={{ textAlign: 'center', color: '#666', fontSize: '0.78rem', marginTop: '0.8rem' }}>
-                We respect your privacy. No spam, ever.
+              <p style={{ textAlign: 'center', color: '#888', fontSize: '0.78rem', marginTop: '0.75rem', lineHeight: 1.5 }}>
+                No spam, ever — just VIP deals delivered to your inbox.
               </p>
             </form>
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '1rem 0' }}>
-            <p style={{ fontSize: '2.5rem', margin: '0 0 1rem' }}>💛</p>
+            <p style={{ fontSize: '2.5rem', margin: '0 0 0.8rem' }}>🎉</p>
             <h3 style={{ fontFamily: "'Playfair Display', serif", color: '#F3E5AB', fontSize: '1.4rem', margin: '0 0 0.5rem' }}>
-              You&apos;re In!
+              You&apos;re In — 10% OFF Unlocked!
             </h3>
-            <p style={{ color: '#A89F8F', fontSize: '0.95rem' }}>
-              Watch your inbox for exclusive offers and VIP deals.
+            <p style={{ color: '#A89F8F', fontSize: '0.92rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+              Your discount is automatically applied at checkout. Book now while slots are available!
             </p>
+            <a href="/prices" style={{
+              display: 'inline-block',
+              padding: '0.75rem 2rem',
+              background: 'linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%)',
+              color: '#111', fontWeight: 700, fontSize: '0.95rem',
+              borderRadius: '8px', textDecoration: 'none',
+              fontFamily: "'Inter', sans-serif",
+              boxShadow: '0 4px 15px rgba(212,175,55,0.3)',
+            }}>
+              Book Your Session Now →
+            </a>
           </div>
         )}
       </div>
