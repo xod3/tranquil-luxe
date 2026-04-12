@@ -32,6 +32,7 @@ model Order {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   paymentProofs        PaymentProof[]
+  invoices             Invoice[]
 }
 
 model PaymentProof {
@@ -41,6 +42,23 @@ model PaymentProof {
   receiptImageUrl String?
   uploadedAt      DateTime @default(now())
   order           Order    @relation(fields: [orderId], references: [id])
+}
+
+model Invoice {
+  id              String    @id @default(cuid())
+  token           String    @unique @default(cuid())
+  clientName      String
+  clientEmail     String
+  clientPhone     String
+  staffNote       String?
+  items           Json      // Array of {id, name, price, quantity}
+  totalAmount     Float
+  currency        String    @default("USD")
+  status          String    @default("unpaid") // unpaid, paid, expired
+  orderId         String?
+  order           Order?    @relation(fields: [orderId], references: [id])
+  createdAt       DateTime  @default(now())
+  expiresAt       DateTime?
 }
 
 model Lead {

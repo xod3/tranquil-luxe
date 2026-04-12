@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import styles from "./admin.module.css";
 import AdminActions from "./AdminActions";
 import DeleteOrderButton from "./DeleteOrderButton";
+import CreateInvoice from "./CreateInvoice";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,10 +19,18 @@ export default async function AdminPage() {
     leads = await (prisma as any).lead.findMany({ orderBy: { createdAt: "desc" } });
   } catch { /* Lead model may not exist in DB yet */ }
 
+  let invoices: any[] = [];
+  try {
+    invoices = await prisma.invoice.findMany({ orderBy: { createdAt: "desc" } });
+  } catch { /* Invoice model may not exist in DB yet */ }
+
   return (
     <div className="container mt-8 mb-8" style={{ minHeight: '80vh', paddingTop: '80px' }}>
       <h1 className="section-title">Admin Dashboard</h1>
       <p className="text-center mb-8">Manage incoming bookings and confirm payments.</p>
+
+      {/* Invoice Creator */}
+      <CreateInvoice />
 
       <div className={styles.orderList}>
         {orders.map((order) => (
@@ -86,6 +95,58 @@ export default async function AdminPage() {
         ))}
 
         {orders.length === 0 && <p className="text-center">No orders found.</p>}
+      </div>
+
+      {/* Invoices Section */}
+      <div style={{ marginTop: '4rem' }}>
+        <h2 className="section-title" style={{ fontSize: '2rem' }}>📋 Invoices</h2>
+        <p className="text-center mb-8" style={{ color: 'var(--text-muted)' }}>
+          Staff-created invoices — {invoices.length} total
+        </p>
+
+        {invoices.length > 0 ? (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid rgba(212,175,55,0.2)' }}>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Client</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Email</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Amount</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Status</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Created</th>
+                  <th style={{ textAlign: 'left', padding: '0.8rem', color: '#D4AF37' }}>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((inv: any) => (
+                  <tr key={inv.id} style={{ borderBottom: '1px solid rgba(212,175,55,0.08)' }}>
+                    <td style={{ padding: '0.7rem', color: '#F3E5AB' }}>{inv.clientName}</td>
+                    <td style={{ padding: '0.7rem' }}><a href={`mailto:${inv.clientEmail}`} style={{ color: '#D4AF37' }}>{inv.clientEmail}</a></td>
+                    <td style={{ padding: '0.7rem', color: '#D4AF37', fontWeight: 600 }}>${inv.totalAmount}</td>
+                    <td style={{ padding: '0.7rem' }}>
+                      <span style={{
+                        padding: '3px 10px',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        background: inv.status === 'paid' ? 'rgba(46,125,50,0.2)' : inv.status === 'expired' ? 'rgba(211,47,47,0.2)' : 'rgba(245,158,11,0.2)',
+                        color: inv.status === 'paid' ? '#4caf50' : inv.status === 'expired' ? '#f44336' : '#f59e0b',
+                      }}>
+                        {inv.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td style={{ padding: '0.7rem', color: 'var(--text-light)', fontSize: '0.8rem' }}>{new Date(inv.createdAt).toLocaleDateString()}</td>
+                    <td style={{ padding: '0.7rem' }}>
+                      <a href={`/invoice/${inv.token}`} target="_blank" rel="noreferrer" style={{ color: '#D4AF37', fontSize: '0.8rem' }}>Open →</a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-center" style={{ color: 'var(--text-muted)' }}>No invoices created yet.</p>
+        )}
       </div>
 
       {/* Leads Section */}

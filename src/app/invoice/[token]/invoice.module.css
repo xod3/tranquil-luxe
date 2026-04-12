@@ -1,0 +1,306 @@
+.invoiceContainer {
+  min-height: 80vh;
+  padding-top: 100px;
+  padding-bottom: 4rem;
+}
+
+/* Loading & Error states */
+.loadingState,
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  gap: 1rem;
+}
+
+.loadingSpinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(212, 175, 55, 0.15);
+  border-top-color: #D4AF37;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Invoice Header */
+.invoiceHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.invoiceBadge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: #D4AF37;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.invoiceTitle {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.invoiceMeta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Layout */
+.invoiceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .invoiceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Summary Card */
+.summaryCard {
+  background: #1A1A1A;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.summaryHeader {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.summaryHeader h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #F3E5AB;
+}
+
+.servicesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.serviceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.06);
+  transition: background 0.2s ease;
+}
+
+.serviceItem:hover {
+  background: rgba(212, 175, 55, 0.03);
+}
+
+.serviceName {
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.serviceQty {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+}
+
+.servicePrice {
+  font-weight: 600;
+  color: #D4AF37;
+  font-family: var(--font-serif);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  background: rgba(212, 175, 55, 0.06);
+  border-top: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.totalLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.totalValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F3E5AB;
+  font-family: var(--font-serif);
+}
+
+/* Staff Note */
+.staffNote {
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(212, 175, 55, 0.04);
+  border-left: 3px solid rgba(212, 175, 55, 0.4);
+  border-radius: 0 8px 8px 0;
+}
+
+.staffNote p {
+  margin: 0;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.staffNote .noteLabel {
+  font-style: normal;
+  font-weight: 600;
+  color: #D4AF37;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+/* Customer Info Card */
+.customerInfo {
+  background: #1A1A1A;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.customerInfo h3 {
+  font-size: 1rem;
+  color: #F3E5AB;
+  margin-bottom: 0.8rem;
+}
+
+.customerDetail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.customerDetail span {
+  color: var(--text-main);
+}
+
+/* Payment Form */
+.paymentMethods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.methodCard {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.methodCard:hover {
+  background-color: rgba(212, 175, 55, 0.05);
+}
+
+.selectedMethod {
+  background-color: var(--gold-primary);
+  color: #111;
+  border-color: var(--gold-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.selectedMethod:hover {
+  background-color: var(--gold-dark);
+}
+
+.paymentInstructions {
+  background-color: rgba(212, 175, 55, 0.03);
+  padding: 1.5rem;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--gold-primary);
+  margin-top: 1rem;
+}
+
+/* Paid State */
+.paidState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+.paidIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: paidBounce 0.6s ease;
+}
+
+@keyframes paidBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.paidState h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.paidState p {
+  color: var(--text-muted);
+  max-width: 400px;
+}
+
+/* Success State after payment */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.successIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
