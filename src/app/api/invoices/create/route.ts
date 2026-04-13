@@ -11,7 +11,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tranquilluxema
 
 export async function POST(request: Request) {
   try {
-    const { clientName, clientEmail, clientPhone, items, staffNote, currency } = await request.json();
+    const { clientName, clientEmail, clientPhone, items, staffNote, currency, depositAmount } = await request.json();
 
     if (!clientName || !clientEmail || !clientPhone || !items || items.length === 0) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -30,6 +30,7 @@ export async function POST(request: Request) {
         staffNote: staffNote || null,
         items,
         totalAmount,
+        depositAmount: depositAmount && depositAmount > 0 && depositAmount < totalAmount ? depositAmount : null,
         currency: currency || "USD",
         status: "unpaid",
       },
@@ -54,8 +55,14 @@ export async function POST(request: Request) {
               <p>A booking has been prepared for you by our team. Please review your invoice and complete your payment at your convenience.</p>
               
               <div style="background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 20px; margin: 20px 0;">
-                <p style="margin: 0 0 5px; color: #A89F8F; font-size: 0.85rem;">Invoice Total</p>
-                <p style="margin: 0; font-size: 1.8rem; font-weight: bold; color: #F3E5AB;">$${totalAmount.toFixed(2)}</p>
+                ${invoice.depositAmount ? `
+                  <p style="margin: 0 0 5px; color: #A89F8F; font-size: 0.85rem;">Deposit Required</p>
+                  <p style="margin: 0; font-size: 1.8rem; font-weight: bold; color: #F3E5AB;">$${invoice.depositAmount.toFixed(2)}</p>
+                  <p style="margin: 8px 0 0; color: #7A7060; font-size: 0.8rem;">Total booking value: $${totalAmount.toFixed(2)} — remaining balance due at time of service</p>
+                ` : `
+                  <p style="margin: 0 0 5px; color: #A89F8F; font-size: 0.85rem;">Invoice Total</p>
+                  <p style="margin: 0; font-size: 1.8rem; font-weight: bold; color: #F3E5AB;">$${totalAmount.toFixed(2)}</p>
+                `}
               </div>
 
               ${staffNote ? `<p style="color: #A89F8F; font-style: italic; border-left: 3px solid #D4AF37; padding-left: 12px;">"${staffNote}"</p>` : ''}

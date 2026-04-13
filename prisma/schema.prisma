@@ -53,6 +53,7 @@ model Invoice {
   staffNote       String?
   items           Json      // Array of {id, name, price, quantity}
   totalAmount     Float
+  depositAmount   Float?    // If set, customer pays this deposit instead of full total
   currency        String    @default("USD")
   status          String    @default("unpaid") // unpaid, paid, expired
   orderId         String?

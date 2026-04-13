@@ -20,6 +20,7 @@ type InvoiceData = {
   staffNote: string | null;
   items: InvoiceItem[];
   totalAmount: number;
+  depositAmount: number | null;
   currency: string;
   status: string;
   createdAt: string;
@@ -80,6 +81,8 @@ export default function InvoicePage({ params }: { params: Promise<{ token: strin
   const sym = invoice ? (currencySymbols[invoice.currency] || "$") : "$";
   const rate = invoice ? (exchangeRates[invoice.currency] || 1) : 1;
   const displayTotal = invoice ? (invoice.totalAmount * rate).toFixed(2) : "0.00";
+  const amountDue = invoice?.depositAmount ? (invoice.depositAmount * rate).toFixed(2) : displayTotal;
+  const isDeposit = invoice?.depositAmount != null && invoice.depositAmount > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -222,8 +225,28 @@ export default function InvoicePage({ params }: { params: Promise<{ token: strin
               ))}
             </ul>
             <div className={styles.totalRow}>
-              <span className={styles.totalLabel}>Total Due</span>
-              <span className={styles.totalValue}>{sym}{displayTotal} {invoice.currency}</span>
+              {isDeposit ? (
+                <>
+                  <div style={{ width: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Booking Total</span>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textDecoration: 'line-through' }}>{sym}{displayTotal}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className={styles.totalLabel}>Deposit Due Now</span>
+                      <span className={styles.totalValue}>{sym}{amountDue} {invoice.currency}</span>
+                    </div>
+                    <p style={{ color: 'var(--text-light)', fontSize: '0.75rem', marginTop: '0.5rem', marginBottom: 0 }}>
+                      Remaining balance of {sym}{((invoice.totalAmount - (invoice.depositAmount || 0)) * rate).toFixed(2)} due at time of service
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className={styles.totalLabel}>Total Due</span>
+                  <span className={styles.totalValue}>{sym}{displayTotal} {invoice.currency}</span>
+                </>
+              )}
             </div>
           </div>
 
@@ -392,7 +415,7 @@ export default function InvoicePage({ params }: { params: Promise<{ token: strin
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isSubmitting || !isConfirmed}>
-              {isSubmitting ? "Processing..." : `Submit Payment (${sym}${displayTotal} ${invoice.currency})`}
+              {isSubmitting ? "Processing..." : isDeposit ? `Submit Deposit (${sym}${amountDue} ${invoice.currency})` : `Submit Payment (${sym}${displayTotal} ${invoice.currency})`}
             </button>
           </form>
         </div>

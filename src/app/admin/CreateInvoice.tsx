@@ -32,6 +32,8 @@ export default function CreateInvoice() {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState("");
+  const [isDeposit, setIsDeposit] = useState(false);
+  const [depositAmount, setDepositAmount] = useState("");
 
   const toggleService = (treatment: typeof treatments[0]) => {
     const exists = selectedItems.find(i => i.id === treatment.id);
@@ -68,6 +70,7 @@ export default function CreateInvoice() {
           clientPhone,
           staffNote,
           items: selectedItems,
+          depositAmount: isDeposit && depositAmount ? parseFloat(depositAmount) : null,
         }),
       });
       const data = await res.json();
@@ -91,6 +94,8 @@ export default function CreateInvoice() {
     setStaffNote("");
     setSelectedItems([]);
     setGeneratedUrl("");
+    setIsDeposit(false);
+    setDepositAmount("");
   };
 
   const copyLink = () => {
@@ -307,14 +312,46 @@ export default function CreateInvoice() {
         />
       </div>
 
+      {/* Deposit Option */}
+      {selectedItems.length > 0 && (
+        <div style={{ background: '#141414', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', border: '1px solid rgba(212,175,55,0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: isDeposit ? '0.8rem' : 0 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', flex: 1 }}>
+              <input type="radio" name="paymentType" checked={!isDeposit} onChange={() => { setIsDeposit(false); setDepositAmount(""); }} style={{ accentColor: '#D4AF37' }} />
+              <span style={{ color: !isDeposit ? '#F3E5AB' : 'var(--text-muted)', fontWeight: !isDeposit ? 600 : 400, fontSize: '0.9rem' }}>Full Payment (${total.toFixed(2)})</span>
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', flex: 1 }}>
+              <input type="radio" name="paymentType" checked={isDeposit} onChange={() => setIsDeposit(true)} style={{ accentColor: '#D4AF37' }} />
+              <span style={{ color: isDeposit ? '#F3E5AB' : 'var(--text-muted)', fontWeight: isDeposit ? 600 : 400, fontSize: '0.9rem' }}>Deposit Only</span>
+            </label>
+          </div>
+          {isDeposit && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#D4AF37', fontWeight: 700, fontSize: '1.2rem' }}>$</span>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter deposit amount"
+                value={depositAmount}
+                onChange={e => setDepositAmount(e.target.value)}
+                min="1"
+                max={total}
+                style={{ flex: 1 }}
+              />
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>of ${total.toFixed(2)}</span>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Submit */}
       <button
         onClick={handleSubmit}
-        disabled={loading || selectedItems.length === 0 || !clientName || !clientEmail || !clientPhone}
+        disabled={loading || selectedItems.length === 0 || !clientName || !clientEmail || !clientPhone || (isDeposit && (!depositAmount || parseFloat(depositAmount) <= 0 || parseFloat(depositAmount) >= total))}
         className="btn btn-primary"
         style={{ width: '100%', padding: '0.8rem', fontSize: '1rem' }}
       >
-        {loading ? "Creating Invoice..." : `Generate Invoice Link ($${total.toFixed(2)})`}
+        {loading ? "Creating Invoice..." : isDeposit && depositAmount ? `Generate Invoice — $${parseFloat(depositAmount).toFixed(2)} Deposit` : `Generate Invoice Link ($${total.toFixed(2)})`}
       </button>
     </div>
   );
