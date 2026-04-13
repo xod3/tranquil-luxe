@@ -18,6 +18,7 @@ export default function Navbar() {
         <div className="nav-links">
           <Link href="/" className="nav-button">Home</Link>
           <Link href="/prices" className="nav-button">Prices</Link>
+          <Link href="/therapists" className="nav-button">Therapists</Link>
           <Link href="/blog" className="nav-button">Blog</Link>
           <Link href="/checkout" className="nav-button cart-button">
             <span>Cart & Checkout</span>
