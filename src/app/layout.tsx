@@ -4,6 +4,7 @@ import { CartProvider } from "../components/CartProvider";
 import Navbar from "../components/Navbar";
 import PetalsFalling from "../components/PetalsFalling";
 import LeadCapturePopup from "../components/LeadCapturePopup";
+import WhatsAppChat from "../components/WhatsAppChat";
 
 const SITE_URL = "https://www.tranquilluxemassage.fit";
 
@@ -126,6 +127,7 @@ export default function RootLayout({
           <Navbar />
           <PetalsFalling />
           <LeadCapturePopup />
+          <WhatsAppChat />
           <main>{children}</main>
           <footer className="footer">
             <div className="container text-center">
