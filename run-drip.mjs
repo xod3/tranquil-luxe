@@ -77,7 +77,7 @@ async function main() {
         return {
           from: "Tranquil Luxe <info@tranquilluxemassage.fit>",
           to: email,
-          subject: "Experience Complete and Total Release ✨ [EASTER PROMO]",
+          subject: "Meet Our Elite Therapists ✨ 10% Off Your First Session",
           html: personalizedHtml
         };
       });
