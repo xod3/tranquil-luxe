@@ -21,7 +21,7 @@ export default function Navbar() {
           <Link href="/therapists" className="nav-button">Therapists</Link>
           <Link href="/blog" className="nav-button">Blog</Link>
           <Link href="/checkout" className="nav-button cart-button">
-            <span>Cart & Checkout</span>
+            <span className="cart-text">Cart & Checkout</span>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               width="24" 
