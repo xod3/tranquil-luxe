@@ -23,7 +23,7 @@ export default function TherapistsPage() {
         <p className={styles.pageSubtitle}>Handpicked. Highly Rated. Ready to serve you.</p>
         <div className={styles.divider} />
         <p className={styles.tagline}>
-          Our professionals are trusted by hundreds of happy clients to deliver the most unforgettable relaxation experience — right at your door.
+          Our professionals are trusted by hundreds of happy clients to deliver unforgettable relaxation — at your home, hotel suite, or any private setting.
         </p>
         <div className={styles.ratingBadge}>
           ⭐ All Therapists 5-Star Rated
@@ -54,6 +54,14 @@ export default function TherapistsPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* View More */}
+      <section style={{ textAlign: 'center', padding: '0 2rem 2rem' }}>
+        <Link href="/prices" className="btn btn-outline" style={{ fontSize: '0.95rem', padding: '0.8rem 2rem' }}>
+          View More Therapists →
+        </Link>
+        <p style={{ color: 'var(--text-light)', fontSize: '0.8rem', marginTop: '0.8rem' }}>We have many more professionals available across all locations.</p>
       </section>
 
       {/* CTA */}
