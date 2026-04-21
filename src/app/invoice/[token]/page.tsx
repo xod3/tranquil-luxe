@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./invoice.module.css";
 import { use } from "react";
 
@@ -29,6 +30,7 @@ type InvoiceData = {
 
 export default function InvoicePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = use(params);
+  const router = useRouter();
   const [invoice, setInvoice] = useState<InvoiceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -113,7 +115,7 @@ export default function InvoicePage({ params }: { params: Promise<{ token: strin
       });
 
       if (res.ok) {
-        setPaymentSuccess(true);
+        router.push("/thank-you");
       } else {
         const result = await res.json();
         alert(result.error || "Payment submission failed. Please try again.");

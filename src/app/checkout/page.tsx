@@ -107,8 +107,7 @@ export default function Checkout() {
 
       if (res.ok) {
         clearCart();
-        alert("Booking request sent! Waiting for payment confirmation.");
-        router.push("/");
+        router.push("/thank-you");
       } else {
         alert("Submission failed. Please try again.");
       }
