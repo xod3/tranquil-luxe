@@ -39,28 +39,51 @@ const chunkArray = (arr, size) => {
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-// All therapist images — randomly pick 6 each run
-const ALL_THERAPISTS = [
-  "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg", "6.jpeg",
-  "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg", "11.jpeg", "12.jpeg",
-  "13.jpeg", "14.jpeg", "15.jpeg", "16.jpeg"
-];
+// Generate a plain text version from the HTML (critical for inbox placement)
+function generatePlainText(email) {
+  const unsubUrl = `https://www.tranquilluxemassage.fit/unsubscribe?email=${encodeURIComponent(email)}`;
+  return `Tranquil Luxe Massage
+Premium Private In-Home Massage Services
 
-function pickRandom(arr, count) {
-  const shuffled = [...arr].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
-}
+Experience Complete and Total Release
 
-function buildTherapistGrid(selected) {
-  const BASE = "https://www.tranquilluxemassage.fit/therapists";
-  return selected.map((img, i) => {
-    const ml = (i % 3 === 0) ? '' : ' margin-left: 1%;';
-    const mr = (i % 3 === 2) ? '' : ' margin-right: 1%;';
-    return `<div class="therapist-card" style="${mr}${ml}">
-        <img src="${BASE}/${img}" alt="Elite Therapist">
-        <div class="therapist-info"><span class="stars">★★★★★</span><p>Highly Rated</p></div>
-      </div>`;
-  }).join("\n      ");
+Escape the noise and demands of everyday life. At Tranquil Luxe, we bring the premium five-star massage experience directly to your personal sanctuary — your home or hotel suite.
+
+Whether you seek profound tension relief or a deeply personal, guided journey to ultimate relaxation, our elite specialists curate an unforgettable evening tailored exactly to your preferences.
+
+Book Your Session: https://www.tranquilluxemassage.fit/prices
+
+---
+
+EXCLUSIVE EASTER CELEBRATION
+Enjoy 10% OFF Your First Luxury Experience
+Offer automatically applied at checkout for first-time clients. Valid until April 15th.
+
+---
+
+FROM THE LUXE JOURNAL
+
+5 Remarkable Benefits of Sensual Massage
+Discover how sensual massage goes beyond relaxation.
+Read more: https://www.tranquilluxemassage.fit/blog/benefits-of-sensual-massage
+
+Why In-Home Luxury Massage Is the Future
+The era of driving to a spa in traffic is fading.
+Read more: https://www.tranquilluxemassage.fit/blog/why-in-home-luxury-massage-is-the-future
+
+The Art of Couples Massage
+A powerful tool for deepening connection and sharing the gift of touch.
+Read more: https://www.tranquilluxemassage.fit/blog/the-art-of-couples-massage
+
+---
+
+Tranquil Luxe Massage
+www.tranquilluxemassage.fit
+bookings@tranquilluxemassage.fit
+
+You are receiving this email because you subscribed to our newsletter or booked a session.
+Unsubscribe: ${unsubUrl}
+`;
 }
 
 async function main() {
@@ -79,14 +102,6 @@ async function main() {
       process.exit(0);
     }
 
-    // Pick 6 random therapists for today's batch
-    const todaysTherapists = pickRandom(ALL_THERAPISTS, 6);
-    const therapistGridHtml = buildTherapistGrid(todaysTherapists);
-    console.log(`Today's featured therapists: ${todaysTherapists.join(", ")}`);
-
-    // Inject therapist grid into template
-    const templateWithTherapists = emailHtmlTemplate.replace("{{ therapist_grid }}", therapistGridHtml);
-
     // Slice the next batch
     const batchEmails = uniqueEmails.slice(state.currentIndex, state.currentIndex + DRIP_AMOUNT);
 
@@ -95,34 +110,46 @@ async function main() {
       batchEmails.push(ADMIN_TEST_EMAIL);
     }
 
-    const chunks = chunkArray(batchEmails, 100);
+    // INBOX OPTIMIZATION: Smaller chunks (50) with longer delays (2s)
+    const chunks = chunkArray(batchEmails, 50);
     console.log(`Executing daily drip of ${batchEmails.length} emails (Index ${state.currentIndex} to ${state.currentIndex + DRIP_AMOUNT})...`);
 
     for (let i = 0; i < chunks.length; i++) {
       const batch = chunks[i];
       
       const payload = batch.map(email => {
-        const personalizedHtml = templateWithTherapists.replace(
+        const unsubUrl = `https://www.tranquilluxemassage.fit/unsubscribe?email=${encodeURIComponent(email)}`;
+        const personalizedHtml = emailHtmlTemplate.replace(
           "{{ unsubscribe_url }}", 
-          `https://www.tranquilluxemassage.fit/unsubscribe?email=${encodeURIComponent(email)}`
+          unsubUrl
         );
         return {
-          from: "Tranquil Luxe <info@tranquilluxemassage.fit>",
+          from: "Tranquil Luxe Massage <info@tranquilluxemassage.fit>",
           to: email,
-          subject: "Meet Our Elite Therapists ✨ 10% Off Your First Session",
-          html: personalizedHtml
+          // INBOX: Clean subject — no emojis, no brackets, no ALL-CAPS
+          subject: "Your Guide to In-Home Luxury Wellness This Easter",
+          html: personalizedHtml,
+          // INBOX: Plain text alternative (major deliverability signal)
+          text: generatePlainText(email),
+          // INBOX: Reply-to a monitored address
+          reply_to: "bookings@tranquilluxemassage.fit",
+          headers: {
+            // INBOX: List-Unsubscribe header (Gmail/Yahoo require this)
+            "List-Unsubscribe": `<${unsubUrl}>`,
+            "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+          }
         };
       });
 
       try {
         await resend.batch.send(payload);
-        console.log(`Sent chunk ${i + 1}/${chunks.length}`);
+        console.log(`Sent chunk ${i + 1}/${chunks.length} (${batch.length} emails)`);
       } catch (err) {
         console.error(`Error sending chunk ${i + 1}:`, err);
       }
       
-      // Safety delay
-      if (i < chunks.length - 1) await delay(1000);
+      // INBOX: Longer delay between chunks (2s) to avoid rate-limit triggers
+      if (i < chunks.length - 1) await delay(2000);
     }
 
     // Update persistent state tracking
@@ -133,7 +160,8 @@ async function main() {
     await resend.emails.send({
       from: "Tranquil Luxe System <info@tranquilluxemassage.fit>",
       to: ADMIN_TEST_EMAIL,
-      subject: `✅ Drip Campaign Daily Report (Index ${state.currentIndex - DRIP_AMOUNT} to ${state.currentIndex})`,
+      subject: `Drip Report — Batch ${state.currentIndex - DRIP_AMOUNT} to ${state.currentIndex}`,
+      text: `Daily 500-email drip ran successfully.\nCurrent position: ${state.currentIndex} / ${uniqueEmails.length}\nUnsubscribed users skipped: ${unsubSet.size}`,
       html: `<p>The daily 500-email drip campaign ran successfully.</p><p>We are currently at position <strong>${state.currentIndex}</strong> out of <strong>${uniqueEmails.length}</strong>.</p><p>The system successfully dynamically skipped <strong>${unsubSet.size}</strong> unsubscribed users globally.</p>`
     });
 

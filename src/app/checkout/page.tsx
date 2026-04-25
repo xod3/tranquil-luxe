@@ -46,8 +46,8 @@ export default function Checkout() {
   const discountAmount = (isEasterPromoActive && isFirstTime) ? total * 0.1 : 0;
   const finalTotal = total - discountAmount;
 
-  const currencySymbols: Record<string, string> = { USD: "$", EUR: "€", GBP: "£" };
-  const exchangeRates: Record<string, number> = { USD: 1, EUR: 0.92, GBP: 0.79 };
+  const currencySymbols: Record<string, string> = { USD: "$", EUR: "€", GBP: "£", CAD: "CA$" };
+  const exchangeRates: Record<string, number> = { USD: 1, EUR: 0.92, GBP: 0.79, CAD: 1.38 };
   const displayTotal = (finalTotal * exchangeRates[currency]).toFixed(2);
   const sym = currencySymbols[currency];
 
@@ -208,6 +208,7 @@ export default function Checkout() {
                 <option value="USD">🇺🇸 USD — US Dollar ($)</option>
                 <option value="EUR">🇪🇺 EUR — Euro (€)</option>
                 <option value="GBP">🇬🇧 GBP — British Pound (£)</option>
+                <option value="CAD">🇨🇦 CAD — Canadian Dollar (CA$)</option>
               </select>
             </div>
 
@@ -262,7 +263,7 @@ export default function Checkout() {
             <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.5rem', marginTop: '3rem', marginBottom: '1.5rem', color: 'var(--gold-dark)' }}>Payment Options</h2>
             
             <div className={styles.paymentMethods}>
-              {['Cashapp', 'Crypto (BTC)', 'Zelle', 'Giftcard'].map((m) => (
+              {['Cashapp', 'Crypto (BTC)', 'Zelle', 'E-Transfer', 'Giftcard'].map((m) => (
                 <label key={m} className={`${styles.methodCard} ${method === m ? styles.selectedMethod : ''}`}>
                   <input type="radio" name="paymentMethod" value={m} onChange={() => setMethod(m)} style={{ display: 'none' }} />
                   {m}
@@ -310,6 +311,7 @@ export default function Checkout() {
                       {method === 'Cashapp' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
                       {method === 'Crypto (BTC)' && <>Send BTC to wallet: <strong style={{ color: '#2e7d32' }}>bc1qarwn3k5wf844vtg4vt0wq0zar6llm5kafgazpw</strong><br/><div style={{ textAlign: 'center', marginTop: '1rem' }}><img src="/btc-qr.png" alt="BTC QR Code" style={{ maxWidth: '220px', borderRadius: '12px', display: 'inline-block' }} /></div></>}
                       {method === 'Zelle' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
+                      {method === 'E-Transfer' && <>Contact support at <a href="mailto:bookings@tranquilluxemassage.fit" style={{ color: '#D4AF37', fontWeight: 'bold', textDecoration: 'underline' }}>bookings@tranquilluxemassage.fit</a> for payment tags, or use other available payment options.</>}
                     </p>
                     <div className="form-group">
                       <label className="form-label">Upload Proof of Payment (Screenshot)</label>
